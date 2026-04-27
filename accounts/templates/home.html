@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOP CAR | الرئيسية</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f8f9fa; 
+            margin: 0; 
+            padding: 0;
+            color: #333;
+        }
+
+        .header { 
+            background: linear-gradient(135deg, #1a2a6c, #2a4858); 
+            color: white; 
+            padding: 25px; 
+            font-size: 32px; 
+            font-weight: bold; 
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 1000px; /* زدنا العرض قليلاً ليستوعب الخدمات الإضافية */
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .welcome-text h2 {
+            color: #1a2a6c;
+            font-size: 28px;
+        }
+
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+            gap: 20px; 
+        }
+
+        .service-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .service-card { 
+            background: white; 
+            border-radius: 20px; 
+            padding: 30px 15px; 
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #eee;
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .service-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 12px 25px rgba(26, 42, 108, 0.15);
+            border-color: #1a2a6c;
+        }
+
+        .icon { 
+            font-size: 45px; 
+            display: block; 
+            margin-bottom: 15px; 
+        }
+
+        .service-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-bottom: 30px;
+        }
+
+        .logout-btn { 
+            color: #e74c3c; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 16px;
+            padding: 10px 25px;
+            border: 2px solid #e74c3c;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #e74c3c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">🏎️ TOP CAR</div>
+
+    <div class="container">
+        <div class="welcome-text">
+            <h2>مرحباً بك في توب كار</h2>
+            <p>اختر الخدمة التي تحتاجها سيارتك اليوم:</p>
+        </div>
+
+        <div class="grid-container">
+            <a href="{% url 'order_service' %}?service=غسيل خارجي" class="service-link">
+                <div class="service-card">
+                    <span class="icon">🏎️</span>
+                    <div class="service-name">غسيل خارجي</div>
+                </div>
+            </a>
+
+            <a href="{% url 'order_service' %}?service=غسيل كامل" class="service-link">
+                <div class="service-card">
+                    <span class="icon">✨</span>
+                    <div class="service-name">غسيل كامل</div>
+                </div>
+            </a>
+
+            <a href="{% url 'order_service' %}?service=غيار زيت وفلتر" class="service-link">
+                <div class="service-card">
+                    <span class="icon">🛠️⚙️</span>
+                    <div class="service-name">غيار زيت وفلتر</div>
+                </div>
+            </a>
+
+            <a href="{% url 'order_service' %}?service=غيار زيت" class="service-link">
+                <div class="service-card">
+                    <span class="icon">🛢️</span>
+                    <div class="service-name">غيار زيت فقط</div>
+                </div>
+            </a>
+
+            <a href="{% url 'order_service' %}?service=دراي كلين" class="service-link">
+                <div class="service-card">
+                    <span class="icon">🧼</span>
+                    <div class="service-name">دراي كلين</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="footer">
+            <a href="{% url 'logout' %}" class="logout-btn">تسجيل الخروج</a>
+        </div>
+    </div>
+
+</body>
+</html>

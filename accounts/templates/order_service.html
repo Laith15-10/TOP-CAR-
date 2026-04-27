@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>حجز خدمة | TOP CAR</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .order-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; border-top: 5px solid #1a2a6c; }
+        h2 { color: #1a2a6c; font-size: 22px; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
+        .submit-btn { background: linear-gradient(to right, #1a2a6c, #b21f1f); color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; cursor: pointer; font-size: 18px; font-weight: bold; margin-top: 10px; transition: 0.3s; }
+        .submit-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+        .back-link { display: block; margin-top: 20px; color: #777; text-decoration: none; font-size: 14px; }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="order-card">
+        <h2>طلب خدمة: <br><span id="service-title" style="color: #b21f1f;"></span></h2>
+        
+        <form method="POST" action="{% url 'create_order' %}">
+    {% csrf_token %}
+    <input type="hidden" name="service" id="service-input-db">
+    
+    <input type="text" name="name" placeholder="اسمك الكريم" required>
+    <input type="text" name="car" placeholder="نوع السيارة وموديلها" required>
+    <input type="tel" name="phone" placeholder="رقم الموبايل" required>
+    
+    <p style="text-align: right; font-size: 14px; color: #666; margin: 10px 5px 2px 0;">وقت الاستلام المفضل:</p>
+    <input type="datetime-local" name="time" required>
+
+    <p style="text-align: right; font-size: 14px; color: #666; margin: 10px 5px 2px 0;">اختر منطقتك في عمان:</p>
+    <select name="area" required style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; background-color: white;">
+        <option value="" disabled selected>اختر المنطقة...</option>
+        <option value="الجبيهة">الجبيهة</option>
+        <option value="تلاع العلي">تلاع العلي</option>
+        <option value="خلدا">خلدا</option>
+        <option value="شفا بدران">شفا بدران</option>
+        <option value="أبو نصير">أبو نصير</option>
+        <option value="عبدون">عبدون</option>
+        <option value="دير غبار">دير غبار</option>
+        <option value="الصويفية">الصويفية</option>
+        <option value="الرابية">الرابية</option>
+        <option value="أم أذينة">أم أذينة</option>
+        <option value="الشميساني">الشميساني</option>
+        <option value="شارع مكة">شارع مكة</option>
+        <option value="شارع المدينة">شارع المدينة</option>
+        <option value="مرج الحمام">مرج الحمام</option>
+        <option value="طبربور">طبربور</option>
+        <option value="ضاحية الرشيد">ضاحية الرشيد</option>
+    </select>
+<div id="map" style="height: 300px; border-radius: 15px;"></div>
+<input type="hidden" name="customer_lat" id="lat">
+<input type="hidden" name="customer_lon" id="lon">
+    <button type="submit" class="submit-btn">تأكيد الحجز الآن</button>
+</form>
+        <a href="{% url 'home' %}" class="back-link">← العودة للرئيسية</a>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const service = params.get('service') || "خدمة عامة";
+        document.getElementById('service-title').innerText = service;
+        document.getElementById('service-input-db').value = service;
+    </script>
+</body>
+</html>
+<script>
+    var map = L.map('map').setView([31.95, 35.91], 13); // عمان
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    var marker = L.marker([31.95, 35.91], {draggable: true}).addTo(map);
+
+    map.locate({setView: true, maxZoom: 16});
+    map.on('locationfound', function(e) {
+        marker.setLatLng(e.latlng);
+        document.getElementById('lat').value = e.latlng.lat;
+        document.getElementById('lon').value = e.latlng.lng;
+    });
+</script>

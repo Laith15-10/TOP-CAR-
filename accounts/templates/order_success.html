@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>تم الطلب بنجاح | TOP CAR</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .success-card { background: white; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 400px; }
+        .icon { font-size: 60px; color: #27ae60; margin-bottom: 20px; }
+        h1 { color: #1a2a6c; margin-bottom: 10px; }
+        p { color: #666; line-height: 1.6; }
+        .btn { display: inline-block; background: #1a2a6c; color: white; padding: 12px 25px; border-radius: 10px; text-decoration: none; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="success-card">
+        <div class="icon">✓</div>
+        <h1>تم استلام طلبك يا {{ customer_name }}!</h1>
+        <p>شكراً لثقتك بنا. يقوم فريق <strong>TOP CAR</strong> الآن بمراجعة طلبك، وسيتواصل معك أقرب سائق خلال دقائق لتأكيد موعد الاستلام.</p>
+        <a href="{% url 'home' %}" class="btn">العودة للموقع</a>
+    </div>
+</body>
+</html>

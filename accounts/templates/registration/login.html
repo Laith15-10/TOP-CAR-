@@ -1,0 +1,8 @@
+<h2>تسجيل الدخول</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">دخول</button>
+</form>
+<br>
+<a href="{% url 'signup' %}">ليس لديك حساب؟ سجل هنا</a>
