@@ -54,7 +54,8 @@
     <div class="order-container">
      
      <form method="POST" action="/create-order/">
-    {% csrf_token %}       
+    {% csrf_token %}      
+            <input type="hidden" name="service_type" value="غسيل سيارات">
             <label>اسمك الكريم:</label>
             <input type="text" name="customer_name" class="form-control" requiered>
 
@@ -62,10 +63,10 @@
             <input type="text" name="car_model" class="form-control" requiered>
 
             <label>رقم الموبايل:</label>
-            <input type="tel" name="phone" class="form-control" requiered>
+            <input type="tel" name="phone_number" class="form-control" requiered>
 
            <label>اختر منطقتك في عمان:</label>
-<select name="location" class="form-control" requiered>
+<select name="area" class="form-control" requiered>
     <option value="" disabled selected>-- اختر المنطقة --</option>
     <option>عبدون</option>
     <option>دير غبار</option>
