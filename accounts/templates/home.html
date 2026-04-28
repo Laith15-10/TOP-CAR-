@@ -1,77 +1,128 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOP CAR | الرئيسية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>TOP CAR - توب كار</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
+        /* الألوان الأساسية للستايل التقني الحديث */
+        :root {
+            --bg-dark: #020617; /* كحلي غامق جداً */
+            --card-bg: #1e293b; /* لون البطاقة */
+            --neon-blue: #38bdf8; /* أزرق نيون */
+            --neon-glow: 0 0 15px rgba(56, 189, 248, 0.5);
+            --text-main: #f8fafc;
+        }
+
         body {
-    background: #020617; /* كحلي غامق جداً */
-    color: white;
-}
-.card {
-    background: #1e293b; /* لون البطاقة */
-    border: 1px solid #38bdf8; /* حد نيون أزرق */
-    border-radius: 15px;
-}
-.btn {
-    background: #0ea5e9; /* زر نيون */
-    border: none;
-    border-radius: 10px;
-}
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            padding-bottom: 30px;
+        }
+
+        /* تنسيق الهيدر */
+        .header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .welcome-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-main);
+            margin-bottom: 5px;
+        }
+
+        .subtitle-text {
+            font-size: 16px;
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+
+        /* تنسيق الأزرار/الخدمات لتصبح كبطاقات (مثل الصورة الثانية) */
+        .service-card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            text-decoration: none; /* إزالة الخط تحت الرابط */
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--neon-blue);
+            box-shadow: var(--neon-glow);
+            transform: translateY(-2px);
+        }
+
+        .service-icon {
+            font-size: 30px;
+            margin-left: 15px; /* مسافة على اليسار لأننا RTL */
+        }
+
+        .service-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--neon-blue); /* لون النص أزرق نيون */
+            flex-grow: 1;
+        }
+
+        /* زر خروج مميز */
+        .logout-btn {
+            background-color: #ef4444; /* أحمر للخروج */
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 20px;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-    <div class="header">🏎️ TOP CAR</div>
-
     <div class="container">
-        <div class="welcome-text">
-            <h2>مرحباً بك في توب كار</h2>
-            <p>اختر الخدمة التي تحتاجها سيارتك اليوم:</p>
+        <div class="header">
+            <div class="welcome-text">مرحباً بك في توب كار </div>
+            <div class="subtitle-text">اختر الخدمة التي تحتاجها سيارتك اليوم:</div>
         </div>
 
-        <div class="grid-container">
-            <a href="{% url 'order_service' %}?service=غسيل خارجي" class="service-link">
-                <div class="service-card">
-                    <span class="icon">🏎️</span>
-                    <div class="service-name">غسيل خارجي</div>
-                </div>
-            </a>
+        <a href="#" class="service-card">
+            <div class="service-icon"></div>
+            <div class="service-name">غسيل خارجي</div>
+        </a>
 
-            <a href="{% url 'order_service' %}?service=غسيل كامل" class="service-link">
-                <div class="service-card">
-                    <span class="icon">✨</span>
-                    <div class="service-name">غسيل كامل</div>
-                </div>
-            </a>
+        <a href="#" class="service-card">
+            <div class="service-icon"></div>
+            <div class="service-name">غسيل كامل</div>
+        </a>
 
-            <a href="{% url 'order_service' %}?service=غيار زيت وفلتر" class="service-link">
-                <div class="service-card">
-                    <span class="icon">🛠️⚙️</span>
-                    <div class="service-name">غيار زيت وفلتر</div>
-                </div>
-            </a>
+        <a href="#" class="service-card">
+            <div class="service-icon"></div>
+            <div class="service-name">غيّار زيت وفلتر</div>
+        </a>
 
-            <a href="{% url 'order_service' %}?service=غيار زيت" class="service-link">
-                <div class="service-card">
-                    <span class="icon">🛢️</span>
-                    <div class="service-name">غيار زيت فقط</div>
-                </div>
-            </a>
+        <a href="#" class="service-card">
+            <div class="service-icon"></div>
+            <div class="service-name">غيّار زيت فقط</div>
+        </a>
 
-            <a href="{% url 'order_service' %}?service=دراي كلين" class="service-link">
-                <div class="service-card">
-                    <span class="icon">🧼</span>
-                    <div class="service-name">دراي كلين</div>
-                </div>
-            </a>
-        </div>
+        <a href="#" class="service-card">
+            <div class="service-icon"></div>
+            <div class="service-name">دراي كلين</div>
+        </a>
 
-        <div class="footer">
-            <a href="{% url 'logout' %}" class="logout-btn">تسجيل الخروج</a>
-        </div>
+        <button class="logout-btn">تسجيل الخروج</button>
+
     </div>
 
 </body>
