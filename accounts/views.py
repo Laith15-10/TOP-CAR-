@@ -14,29 +14,30 @@ def calculate_distance(lat1, lon1, lat2, lon2):
         * math.cos(math.radians(float(lat2))) * math.sin(dlon/2) * math.sin(dlon/2)
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
     return radius * c
-
-# --- 2. استقبال طلب العميل والربط التلقائي بالأقرب ---
+    
 def create_order(request):
     if request.method == 'POST':
-        # سحب بيانات العميل والموقع من الخريطة
-        name = request.POST.get('customer_name')
-        car = request.POST.get('car_model')
-        phone = request.POST.get('phone_number')
-        service = request.POST.get('service_type')
+        # سحب البيانات بناءً على الأسماء الموحدة في order.html
+        customer_name = request.POST.get('customer_name')
+        car_model = request.POST.get('car_model')
+        phone_number = request.POST.get('phone_number')
         area = request.POST.get('area')
-        c_lat = request.POST.get('customer_lat')
-        c_lon = request.POST.get('customer_lon')
+        service_type = request.POST.get('service_type', 'غسيل سيارات')
 
-        # إنشاء الطلب في قاعدة البيانات
-        new_order = ServiceOrder.objects.create(
-            customer_name=name,
-            car_model=car,
-            phone_number=phone,
-            service_type=service,
-            area=area,
-            customer_lat=c_lat,
-            customer_lon=c_lon
-        )
+        # إنشاء الطلب في قاعدة البيانات مع ضمان عدم وجود قيم فارغة
+        if customer_name and car_model and phone_number:
+            ServiceOrder.objects.create(
+                customer_name=customer_name,
+                car_model=car_model,
+                phone_number=phone_number,
+                area=area,
+                service_type=service_type,
+                customer_lat=request.POST.get('customer_lat', 0.0),
+                customer_lon=request.POST.get('customer_lon', 0.0)
+            )
+            return render(request, 'home.html') # سيعود للرئيسية بعد النجاح
+            
+    return render(request, 'order.html')
 
         # البحث التلقائي عن أقرب سائق "نشط"
         active_drivers = Driver.objects.filter(is_active=True)
