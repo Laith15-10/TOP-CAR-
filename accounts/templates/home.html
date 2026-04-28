@@ -86,6 +86,51 @@
             margin-top: 20px;
             font-weight: bold;
         }
+        /* كود لجعل التطبيق Full Screen */
+header, .navbar {
+    display: none !important; /* إخفاء أي هيدر قديم */
+}
+body {
+    padding-top: env(safe-area-inset-top); /* حماية منطقة الكاميرا/الساعة */
+    padding-bottom: 80px; /* مسافة عشان الشريط السفلي ما يغطي المحتوى */
+}
+        .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: rgba(30, 41, 59, 0.95); /* لون زجاجي كحلي */
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid rgba(56, 189, 248, 0.3);
+    z-index: 1000;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #94a3b8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.nav-item.active {
+    color: #38bdf8; /* لون النيون للزر النشط */
+}
+
+.nav-item span {
+    font-size: 20px;
+}
+
+.nav-item small {
+    font-size: 12px;
+    margin-top: 4px;
+}
     </style>
 </head>
 <body>
@@ -124,6 +169,19 @@
         <button class="logout-btn">تسجيل الخروج</button>
 
     </div>
-
+<div class="bottom-nav">
+    <a href="#" class="nav-item active">
+        <span>🏠</span>
+        <small>الرئيسية</small>
+    </a>
+    <a href="#" class="nav-item">
+        <span>👤</span>
+        <small>البروفايل</small>
+    </a>
+    <a href="#" class="nav-item">
+        <span>⚙️</span>
+        <small>الإعدادات</small>
+    </a>
+</div>
 </body>
 </html>
