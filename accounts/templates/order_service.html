@@ -4,13 +4,28 @@
     <meta charset="UTF-8">
     <title>حجز خدمة | TOP CAR</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .order-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; border-top: 5px solid #1a2a6c; }
-        h2 { color: #1a2a6c; font-size: 22px; margin-bottom: 20px; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
-        .submit-btn { background: linear-gradient(to right, #1a2a6c, #b21f1f); color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; cursor: pointer; font-size: 18px; font-weight: bold; margin-top: 10px; transition: 0.3s; }
-        .submit-btn:hover { opacity: 0.9; transform: translateY(-2px); }
-        .back-link { display: block; margin-top: 20px; color: #777; text-decoration: none; font-size: 14px; }
+       /* الخلفية الفخمة */
+body {
+    background: #020617; /* أسود كحلي عميق */
+    color: #e2e8f0;
+}
+
+/* بطاقة الطلب (التصميم الزجاجي) */
+.card {
+    background: rgba(30, 41, 59, 0.8) !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(56, 189, 248, 0.3) !important; /* حدود نيون */
+    border-radius: 25px !important;
+}
+
+/* الأزرار النيون */
+.btn-primary {
+    background: linear-gradient(90deg, #0ea5e9, #2dd4bf) !important;
+    border: none !important;
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+    border-radius: 15px !important;
+    padding: 12px !important;
+}
     </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -50,7 +65,7 @@
         <option value="طبربور">طبربور</option>
         <option value="ضاحية الرشيد">ضاحية الرشيد</option>
     </select>
-<div id="map" style="height: 300px; border-radius: 15px;"></div>
+
 <input type="hidden" name="customer_lat" id="lat">
 <input type="hidden" name="customer_lon" id="lon">
     <button type="submit" class="submit-btn">تأكيد الحجز الآن</button>
