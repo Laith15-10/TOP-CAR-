@@ -1,95 +1,132 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>حجز خدمة | TOP CAR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-       /* الخلفية الفخمة */
-body {
-    background: #020617; /* أسود كحلي عميق */
-    color: #e2e8f0;
-}
+        body { background-color: #020617; color: white; font-family: sans-serif; padding: 20px; }
+        
+        .order-container {
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            margin-top: 20px;
+        }
 
-/* بطاقة الطلب (التصميم الزجاجي) */
-.card {
-    background: rgba(30, 41, 59, 0.8) !important;
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(56, 189, 248, 0.3) !important; /* حدود نيون */
-    border-radius: 25px !important;
-}
+        h3 { color: #38bdf8; font-weight: bold; margin-bottom: 25px; text-align: center; }
 
-/* الأزرار النيون */
-.btn-primary {
-    background: linear-gradient(90deg, #0ea5e9, #2dd4bf) !important;
-    border: none !important;
-    box-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
-    border-radius: 15px !important;
-    padding: 12px !important;
-}
+        label { margin-bottom: 8px; font-size: 14px; color: #94a3b8; }
+
+        .form-control {
+            background: #0f172a !important;
+            border: 1px solid #334155 !important;
+            color: white !important;
+            border-radius: 12px !important;
+            padding: 12px !important;
+            margin-bottom: 20px !important;
+        }
+
+        .form-control:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+
+        .btn-confirm {
+            background: linear-gradient(90deg, #0ea5e9, #2dd4bf);
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            width: 100%;
+            font-weight: bold;
+            color: white;
+            margin-top: 10px;
+        }
     </style>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
-    <div class="order-card">
-        <h2>طلب خدمة: <br><span id="service-title" style="color: #b21f1f;"></span></h2>
-        
-        <form method="POST" action="{% url 'create_order' %}">
-    {% csrf_token %}
-    <input type="hidden" name="service" id="service-input-db">
-    
-    <input type="text" name="name" placeholder="اسمك الكريم" required>
-    <input type="text" name="car" placeholder="نوع السيارة وموديلها" required>
-    <input type="tel" name="phone" placeholder="رقم الموبايل" required>
-    
-    <p style="text-align: right; font-size: 14px; color: #666; margin: 10px 5px 2px 0;">وقت الاستلام المفضل:</p>
-    <input type="datetime-local" name="time" required>
 
-    <p style="text-align: right; font-size: 14px; color: #666; margin: 10px 5px 2px 0;">اختر منطقتك في عمان:</p>
-    <select name="area" required style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; background-color: white;">
-        <option value="" disabled selected>اختر المنطقة...</option>
-        <option value="الجبيهة">الجبيهة</option>
-        <option value="تلاع العلي">تلاع العلي</option>
-        <option value="خلدا">خلدا</option>
-        <option value="شفا بدران">شفا بدران</option>
-        <option value="أبو نصير">أبو نصير</option>
-        <option value="عبدون">عبدون</option>
-        <option value="دير غبار">دير غبار</option>
-        <option value="الصويفية">الصويفية</option>
-        <option value="الرابية">الرابية</option>
-        <option value="أم أذينة">أم أذينة</option>
-        <option value="الشميساني">الشميساني</option>
-        <option value="شارع مكة">شارع مكة</option>
-        <option value="شارع المدينة">شارع المدينة</option>
-        <option value="مرج الحمام">مرج الحمام</option>
-        <option value="طبربور">طبربور</option>
-        <option value="ضاحية الرشيد">ضاحية الرشيد</option>
-    </select>
+<div class="container">
+    <h3>طلب خدمة جديدة 🚗</h3>
+    
+    <div class="order-container">
+        <form method="POST">
+            {% csrf_token %}
+            
+            <label>اسمك الكريم:</label>
+            <input type="text" name="name" class="form-control" placeholder="أدخل اسمك">
 
-<input type="hidden" name="customer_lat" id="lat">
-<input type="hidden" name="customer_lon" id="lon">
-    <button type="submit" class="submit-btn">تأكيد الحجز الآن</button>
-</form>
-        <a href="{% url 'home' %}" class="back-link">← العودة للرئيسية</a>
+            <label>نوع السيارة وموديلها:</label>
+            <input type="text" name="car_model" class="form-control" placeholder="مثلاً: تويوتا كامري 2023">
+
+            <label>رقم الموبايل:</label>
+            <input type="tel" name="phone" class="form-control" placeholder="07XXXXXXXX">
+
+           <label>اختر منطقتك في عمان:</label>
+<select name="location" class="form-control">
+    <option value="" disabled selected>-- اختر المنطقة --</option>
+    <option>عبدون</option>
+    <option>دير غبار</option>
+    <option>الصويفية</option>
+    <option>خلدا</option>
+    <option>تلاع العلي</option>
+    <option>الرابية</option>
+    <option>أم أذينة</option>
+    <option>الشميساني</option>
+    <option>الجاردنز</option>
+    <option>شارع مكة</option>
+    <option>شارع المدينة المنورة</option>
+    <option>الكرسي</option>
+    <option>دابوق</option>
+    <option>بدر الجديدة</option>
+    <option>الجبيهة</option>
+    <option>أبو نصير</option>
+    <option>شفا بدران</option>
+    <option>ضاحية الرشيد</option>
+    <option>طبربور</option>
+    <option>عين باشا</option>
+    <option>ضاحية الأمير راشد</option>
+    <option>وسط البلد</option>
+    <option>جبل عمان</option>
+    <option>جبل اللويبدة</option>
+    <option>جبل الحسين</option>
+    <option>المصدار</option>
+    <option>المحطة</option>
+    <option>القلعة</option>
+    <option>ماركا الشمالية</option>
+    <option>ماركا الجنوبية</option>
+    <option>النزهة</option>
+    <option>الهاشمي الشمالي</option>
+    <option>الهاشمي الجنوبي</option>
+    <option>القويسمة</option>
+    <option>أبو علندا</option>
+    <option>جبل النصر</option>
+    <option>جبل الزهور</option>
+    <option>حي نزال</option>
+    <option>الياسمين</option>
+    <option>سحاب</option>
+    <option>المقابلين</option>
+    <option>خريبة السوق</option>
+    <option>بيادر وادي السير</option>
+    <option>مرج الحمام</option>
+    <option>ناعور</option>
+    <option>بنيات</option>
+    <option>الجويدة</option>
+    <option>طريق المطار</option>
+    <option>أم نوارة</option>
+    <option>المنارة</option>
+    <option>ضاحية الاستقلال</option>
+    <option>حي السهل</option>
+    <option>أم القرى</option>
+    <option>وادي الحدادة</option>
+    <option>رغدان</option>
+</select>
+
+            <button type="submit" class="btn-confirm">تأكيد الحجز الآن</button>
+        </form>
     </div>
+</div>
 
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const service = params.get('service') || "خدمة عامة";
-        document.getElementById('service-title').innerText = service;
-        document.getElementById('service-input-db').value = service;
-    </script>
 </body>
 </html>
-<script>
-    var map = L.map('map').setView([31.95, 35.91], 13); // عمان
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-    var marker = L.marker([31.95, 35.91], {draggable: true}).addTo(map);
-
-    map.locate({setView: true, maxZoom: 16});
-    map.on('locationfound', function(e) {
-        marker.setLatLng(e.latlng);
-        document.getElementById('lat').value = e.latlng.lat;
-        document.getElementById('lon').value = e.latlng.lng;
-    });
-</script>
