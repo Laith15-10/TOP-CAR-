@@ -43,8 +43,7 @@
             color: white;
             margin-top: 10px;
         }
-        <form method="POST" action="/create-order/">
-    {% csrf_token %}
+      
     </style>
 </head>
 <body>
@@ -53,9 +52,9 @@
     <h3>طلب خدمة جديدة 🚗</h3>
     
     <div class="order-container">
-        <form method="POST">
-            {% csrf_token %}
-            
+     
+     <form method="POST" action="/create-order/">
+    {% csrf_token %}       
             <label>اسمك الكريم:</label>
             <input type="text" name="name" class="form-control" placeholder="أدخل اسمك">
 
