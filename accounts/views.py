@@ -40,16 +40,16 @@ def create_order(request):
     return render(request, 'order.html')
 
         # البحث التلقائي عن أقرب سائق "نشط"
-        active_drivers = Driver.objects.filter(is_active=True)
-        closest_driver = None
-        min_dist = float('inf')
+            active_drivers = Driver.objects.filter(is_active=True)
+            closest_driver = None
+            min_dist = float('inf')
 
-        for driver in active_drivers:
-            # حساب المسافة بين موقع العميل وموقع السائق الحالي
-            dist = calculate_distance(c_lat, c_lon, driver.lat, driver.lon)
-            if dist < min_dist:
-                min_dist = dist
-                closest_driver = driver
+            for driver in active_drivers:
+                # حساب المسافة بين موقع العميل وموقع السائق الحالي
+                dist = calculate_distance(c_lat, c_lon, driver.lat, driver.lon)
+                if dist < min_dist:
+                    min_dist = dist
+                    closest_driver = driver
 
         # ربط السائق الأقرب بالطلب فوراً
         if closest_driver:
