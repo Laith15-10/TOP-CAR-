@@ -53,3 +53,13 @@ def create_order(request):
             return render(request, 'home.html')
             
     return render(request, 'order.html')
+    
+from django.shortcuts import redirect
+
+def signup_view(request):
+    # إذا كان المستخدم مسجل دخوله مسبقاً، انقله فوراً للرئيسية ولا تره صفحة التسجيل
+    if request.user.is_authenticated:
+        return redirect('home')
+    
+    # باقي كود إنشاء الحساب هنا...
+    return render(request, 'signup.html')
