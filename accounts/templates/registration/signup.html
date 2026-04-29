@@ -21,6 +21,27 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
+            <div class="mb-3">
+    <label style="color: #38bdf8;">أنا أريد التسجيل كـ:</label>
+    <select id="userType" name="user_type" class="form-select" onchange="toggleDriverFields()" style="background: #1e293b; color: white; border: 1px solid #38bdf8;">
+        <option value="customer">عميل (أبحث عن خدمة)</option>
+        <option value="driver">سائق (مقدم خدمة)</option>
+    </select>
+</div>
+
+<div id="driverExtraFields" style="display: none; background: rgba(56, 189, 248, 0.05); padding: 15px; border-radius: 10px; border: 1px dashed #38bdf8; margin-bottom: 20px;">
+    <h6 style="color: #38bdf8; margin-bottom: 15px;">إثبات الشخصية (مطلوب للسائقين فقط)</h6>
+    
+    <div class="mb-3">
+        <label>صورة الهوية - الوجه الأمامي</label>
+        <input type="file" name="id_front" class="form-control">
+    </div>
+    
+    <div class="mb-3">
+        <label>صورة الهوية - الوجه الخلفي</label>
+        <input type="file" name="id_back" class="form-control">
+    </div>
+</div>
             <button type="submit">{% trans "سجل الآن" %}</button>
         </form>
         <div class="footer-link">
