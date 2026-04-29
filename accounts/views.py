@@ -17,16 +17,13 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     
 def create_order(request):
     if request.method == 'POST':
-        # 1. سحب البيانات من الفورم (تأكد من مطابقة الأسماء في order.html)
         customer_name = request.POST.get('customer_name')
         car_model = request.POST.get('car_model')
         phone_number = request.POST.get('phone_number')
         area = request.POST.get('area')
-        service_type = request.POST.get('service_type', 'غسيل سيارات')
+        service_type = request.POST.get('service_type', 'Car Wash')
 
-        # 2. التأكد من أن الحقول المطلوبة ليست فارغة لمنع IntegrityError
         if customer_name and car_model and phone_number:
-            # إنشاء الطلب وحفظه في قاعدة البيانات
             new_order = ServiceOrder.objects.create(
                 customer_name=customer_name,
                 car_model=car_model,
@@ -36,33 +33,9 @@ def create_order(request):
                 customer_lat=request.POST.get('customer_lat', 0.0),
                 customer_lon=request.POST.get('customer_lon', 0.0)
             )
-            
-            # البحث التلقائي عن أقرب سائق (الكود الذي كان يسبب خطأ الإزاحة)
-            active_drivers = Driver.objects.filter(is_active=True)
-            closest_driver = None
-            min_dist = float('inf')
-
-            for driver in active_drivers:
-                # حساب المسافة (تأكد من وجود دالة calculate_distance لديك)
-                dist = calculate_distance(
-                    float(request.POST.get('customer_lat', 0)), 
-                    float(request.POST.get('customer_lon', 0)), 
-                    driver.lat, 
-                    driver.lon
-                )
-                if dist < min_dist:
-                    min_dist = dist
-                    closest_driver = driver
-
-            if closest_driver:
-                new_order.driver_assigned = closest_driver
-                new_order.status = 'accepted'
-                new_order.save()
-
-            return render(request, 'home.html') # النجاح والعودة للرئيسية
+            return render(request, 'home.html')
             
     return render(request, 'order.html')
-
         # البحث التلقائي عن أقرب سائق "نشط"
             active_drivers = Driver.objects.filter(is_active=True)
             closest_driver = None
