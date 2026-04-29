@@ -118,6 +118,15 @@ USE_TZ = True
 STATIC_URL = 'static/'
 LOGIN_REDIRECT_URL = 'signup'
 LOGOUT_REDIRECT_URL = 'signup'
+
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+# مدة الجلسة بالثواني (هنا مثلاً سنة كاملة)
+SESSION_COOKIE_AGE = 31536000 
+
+# الحفاظ على الجلسة مفتوحة حتى بعد إغلاق المتصفح
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# تجديد الجلسة تلقائياً مع كل حركة للمستخدم لإبقائها نشطة دائماً
+SESSION_SAVE_EVERY_REQUEST = True
