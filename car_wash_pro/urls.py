@@ -9,5 +9,4 @@ urlpatterns = [
     path('order/', TemplateView.as_view(template_name='order.html'), name='order'),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('create-order/', views.create_order, name='create_order'),
-    path('driver-login/', views.driver_login, name='driver_login'),
 ]
