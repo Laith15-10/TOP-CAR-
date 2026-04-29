@@ -48,5 +48,20 @@
             <a href="{% url 'login' %}">{% trans "لديك حساب بالفعل؟ سجل دخولك" %}</a>
         </div>
     </div>
+<script>
+function toggleDriverFields() {
+    // الحصول على القيمة المختارة
+    var selection = document.getElementById("userType").value;
+    // الحصول على حاوية الخانات الإضافية
+    var extraFields = document.getElementById("driverExtraFields");
+
+    if (selection === "driver") {
+        extraFields.style.display = "block"; // أظهرها إذا اختار سائق
+    } else {
+        extraFields.style.display = "none";  // أخفها إذا اختار عميل
+    }
+}
+</script>
+    
 </body>
 </html>
