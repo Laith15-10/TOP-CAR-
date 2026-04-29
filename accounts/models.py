@@ -11,7 +11,11 @@ class Driver(models.Model):
     # في كلاس Driver أضف:
     lat = models.FloatField(default=31.95, verbose_name="خط العرض") # إحداثيات عمان الافتراضية
     lon = models.FloatField(default=35.91, verbose_name="خط الطول")
-
+# أضف هذه الحقول هنا
+    id_card_front = models.ImageField(upload_to='drivers/ids/', null=True, blank=True, verbose_name="صورة الهوية - الوجه")
+    id_card_back = models.ImageField(upload_to='drivers/ids/', null=True, blank=True, verbose_name="صورة الهوية - الظهر")
+    license_image = models.ImageField(upload_to='drivers/licenses/', null=True, blank=True, verbose_name="رخصة القيادة")
+    is_verified = models.BooleanField(default=False, verbose_name="تم التحقق من الحساب")
 
     def __str__(self):
         return self.user.username
