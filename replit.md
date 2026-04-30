@@ -1,59 +1,63 @@
-# TOP CAR — Automotive Services Platform
+# Car Wash Pro — TOP CAR
 
-## Overview
-A full-stack Django automotive services platform where customers book mobile car services and drivers accept and fulfill them.
+A full-stack Django automotive services platform connecting customers with drivers. Arabic-first, mobile-first design with real-time WebSocket communication.
 
-## Features
-- **Splash Screen**: 2-second animated splash → login/signup
-- **Customer Registration**: name, email, phone, password
-- **Driver Registration**: full documents (ID front/back, license, face photo, vehicle license, car info) + admin approval workflow
-- **Admin Approval**: Drivers start as "pending" → can't access app until admin approves
-- **Service Booking**: 5 services (Body Wash, Full Wash, Dry Clean, Oil Change, Oil & Filter) with Leaflet map pin, date/time picker, payment (Cash / QLIQ)
-- **Real-Time Dispatch**: WebSockets (Django Channels) dispatch orders to nearest online driver
-- **Driver Accept/Reject**: Drivers see customer location on map; rejection requires reason + logs it
-- **Live Tracking**: Customer sees driver's moving pin on map with ETA countdown
-- **Service Status Flow**: Arrived → Picking Up → In Progress → Finished
-- **Payment Summary + Rating**: Price summary, 5-star rating widget
-- **Admin Dashboard**: Django admin with driver approval actions, rejection log, photo previews
-- **Bilingual**: Arabic (default, RTL) / English (LTR) switchable at runtime
-- **Dark/Neon Theme**: #0d0d0d background, #00ffcc and #00e5ff neon accents, glow effects
+## Tech Stack
 
-## Architecture
-- **Backend**: Django 5.2 + Django Channels + Daphne (ASGI)
-- **Real-Time**: WebSockets via Django Channels (InMemoryChannelLayer)
-- **Database**: SQLite
-- **Maps**: Leaflet.js (OpenStreetMap tiles)
-- **Frontend**: Bootstrap 5 + custom CSS, mobile-first layout
-- **i18n**: Django i18n with gettext, Arabic + English locale files
+- **Backend**: Django 5.2 (Python 3.11)
+- **ASGI Server**: Daphne (WebSocket support via Django Channels)
+- **Database**: SQLite (`db.sqlite3`)
+- **Real-time**: Django Channels + InMemoryChannelLayer (WebSockets)
+- **Static Files**: WhiteNoise
+- **Language**: Arabic (ar) + English (en), Jordan timezone (Asia/Amman)
 
-## Key Files
-- `accounts/models.py` — CustomerProfile, Driver, ServiceOrder, RejectionLog, Rating
-- `accounts/views.py` — All views (auth, booking, driver dashboard, tracking, payment, rating)
-- `accounts/consumers.py` — WebSocket consumers (OrderConsumer, DriverConsumer)
-- `accounts/routing.py` — WebSocket URL routing
-- `accounts/forms.py` — CustomerSignupForm, DriverSignupForm, BookingForm, RatingForm
-- `accounts/admin.py` — Full admin with driver approval actions and photo previews
-- `car_wash_pro/asgi.py` — ASGI routing with Channels
-- `car_wash_pro/settings.py` — Full config with channels, i18n, media
-- `accounts/templates/` — All templates (splash, login, home, booking, tracking, driver dashboard, payment, etc.)
-- `locale/ar/` — Arabic translations
-- `locale/en/` — English translations
+## Project Structure
 
-## Running
 ```
-daphne -b 0.0.0.0 -p 5000 car_wash_pro.asgi:application
+car_wash_pro/        - Django project config (settings, urls, asgi, wsgi)
+accounts/            - Main app
+  models.py          - CustomerProfile, Driver, ServiceOrder, RejectionLog, Rating
+  views.py           - All views (auth, booking, order flow, driver, admin)
+  forms.py           - Signup, booking, rejection, rating forms
+  consumers.py       - OrderConsumer + DriverConsumer (WebSocket handlers)
+  routing.py         - WebSocket URL routing
+  admin.py           - Django admin with approval actions & photo previews
+  migrations/        - Database migrations
+  templates/         - All HTML templates
+locale/              - i18n .po/.mo files (ar + en)
+staticfiles/         - Collected static files (WhiteNoise served)
+media/               - Uploaded driver verification images
 ```
 
-## Admin Access
-- URL: /admin/
-- Username: admin
-- Password: admin123
+## Key Features
 
-## Services & Prices
-| Service | Price (JD) |
-|---------|-----------|
-| Body Wash | 5 |
-| Full Wash | 10 |
-| Dry Clean | 15 |
-| Oil Change | 12 |
-| Oil & Filter Change | 18 |
+1. **Auth**: Customer/Driver signup with separate flows, driver document uploads
+2. **Booking**: Leaflet map pin-drop, 5 service types, datetime picker, Cash/QLIQ payment
+3. **Dispatch**: Nearest driver assignment via Euclidean distance, WebSocket notification
+4. **Driver Dashboard**: Accept/Reject orders, rejection reason logging, re-dispatch on reject
+5. **Live Tracking**: Customer sees moving driver pin on map, ETA countdown, location updates every 5s
+6. **Order Status Flow**: Arrived → Picking Up Car → Service in Progress → Service Finished
+7. **Payment & Rating**: Price summary, 5-star rating widget
+8. **Admin**: Approve/reject drivers with reason, photo previews for all documents
+9. **i18n**: Arabic + English, language toggle
+10. **Dark/Neon Theme**: #0d0d0d background, #00ffcc/#00e5ff neon accents, splash screen
+
+## Running the App
+
+```bash
+python3.11 manage.py migrate && daphne -b 0.0.0.0 -p 5000 car_wash_pro.asgi:application
+```
+
+## Workflow
+
+- **Start application**: Daphne ASGI server on port 5000 (supports HTTP + WebSocket)
+
+## Default Credentials
+
+- **Admin**: `admin` / `admin123` (at `/admin/`)
+
+## Deployment
+
+- Target: autoscale
+- Run: `daphne -b 0.0.0.0 -p 5000 car_wash_pro.asgi:application`
+- Note: For production, upgrade InMemoryChannelLayer to Redis for multi-instance WebSocket support

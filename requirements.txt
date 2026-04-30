@@ -5,3 +5,6 @@ Pillow
 gunicorn
 asgiref
 whitenoise
+channels
+daphne
+whitenoise
