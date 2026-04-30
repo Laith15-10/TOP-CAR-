@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = ['https://*.replit.dev', 'https://*.repl.co', 'https://*.replit.app']
+
 
 # Application definition
 
@@ -115,6 +117,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 STATIC_URL = 'static/'
 LOGIN_REDIRECT_URL = 'signup'
 LOGOUT_REDIRECT_URL = 'signup'
@@ -122,6 +126,9 @@ LOGOUT_REDIRECT_URL = 'signup'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 # مدة الجلسة بالثواني (هنا مثلاً سنة كاملة)
 SESSION_COOKIE_AGE = 31536000 
 
