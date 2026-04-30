@@ -1,0 +1,138 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>TOP CAR</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0d0d0d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #splash {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            opacity: 1;
+            transition: opacity .6s ease;
+        }
+        .logo-text {
+            font-size: 56px;
+            font-weight: 900;
+            letter-spacing: 8px;
+            color: #00ffcc;
+            text-shadow: 0 0 30px rgba(0,255,204,.7), 0 0 60px rgba(0,255,204,.3);
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .logo-sub {
+            font-size: 16px;
+            color: #00e5ff;
+            letter-spacing: 3px;
+            opacity: .8;
+        }
+        .loader-ring {
+            width: 56px;
+            height: 56px;
+            border: 4px solid rgba(0,255,204,.15);
+            border-top: 4px solid #00ffcc;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+        #main-content {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+            background: #0d0d0d;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+            gap: 16px;
+        }
+        .cta-btn {
+            background: linear-gradient(135deg, #00ffcc, #00e5ff);
+            color: #000;
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            font-weight: 800;
+            font-size: 17px;
+            cursor: pointer;
+            box-shadow: 0 0 18px rgba(0,255,204,.45);
+            width: 100%;
+            max-width: 360px;
+            transition: all .25s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+        .cta-btn:hover { opacity: .85; transform: translateY(-2px); }
+        .cta-outline {
+            background: transparent;
+            color: #00ffcc;
+            border: 2px solid #00ffcc;
+            border-radius: 14px;
+            padding: 14px;
+            font-weight: 700;
+            font-size: 17px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 360px;
+            transition: all .25s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+        .cta-outline:hover { background: #00ffcc; color: #000; }
+        .divider { color: #444; font-size: 14px; }
+        .signup-links { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 360px; }
+        .signup-sub { font-size: 13px; color: #555; text-align: center; }
+        .signup-sub a { color: #00e5ff; }
+    </style>
+</head>
+<body>
+    <div id="splash">
+        <div class="logo-text">TOP CAR</div>
+        <div class="logo-sub">{% trans "خدمات السيارات المتنقلة" %}</div>
+        <div class="loader-ring"></div>
+    </div>
+
+    <div id="main-content">
+        <div style="text-align:center; margin-bottom:10px;">
+            <div style="font-size:42px; font-weight:900; letter-spacing:6px; color:#00ffcc; text-shadow:0 0 24px rgba(0,255,204,.6);">TOP CAR</div>
+            <div style="color:#8892a4; font-size:15px; margin-top:6px;">{% trans "خدمات السيارات المتنقلة" %}</div>
+        </div>
+        <div class="signup-links">
+            <a href="{% url 'login' %}" class="cta-btn">{% trans "تسجيل الدخول" %}</a>
+            <div class="divider" style="text-align:center;">{% trans "أو إنشاء حساب جديد" %}</div>
+            <a href="{% url 'customer_signup' %}" class="cta-outline">{% trans "تسجيل كعميل" %}</a>
+            <a href="{% url 'driver_signup' %}" class="cta-outline">{% trans "تسجيل كسائق" %}</a>
+        </div>
+        <div class="signup-sub">{% trans "خدمتك على باب بيتك" %} 🚗✨</div>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var splash = document.getElementById('splash');
+                var main = document.getElementById('main-content');
+                splash.style.opacity = '0';
+                setTimeout(function() {
+                    splash.style.display = 'none';
+                    main.style.display = 'flex';
+                }, 600);
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

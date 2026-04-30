@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "تقييم الخدمة" %} | TOP CAR{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="color:#00ffcc; font-weight:800; font-size:22px;">⭐ {% trans "قيّم الخدمة" %}</div>
+</div>
+<div class="card-dark">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="star-rating" id="stars">
+            <span data-val="1">★</span>
+            <span data-val="2">★</span>
+            <span data-val="3">★</span>
+            <span data-val="4">★</span>
+            <span data-val="5">★</span>
+        </div>
+        <input type="hidden" name="stars" id="stars-val" value="5">
+        <div style="margin-top:14px;">
+            <label>{% trans "تعليق (اختياري)" %}</label>
+            <textarea name="comment" class="form-control" rows="3"></textarea>
+        </div>
+        <button type="submit" class="neon-btn" style="margin-top:14px;">{% trans "إرسال التقييم" %}</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    var stars = document.querySelectorAll('.star-rating span');
+    var starsVal = document.getElementById('stars-val');
+    stars.forEach(function(s) {
+        s.addEventListener('click', function() {
+            var val = parseInt(this.dataset.val);
+            starsVal.value = val;
+            stars.forEach(function(ss, i) {
+                ss.classList.toggle('active', i < val);
+            });
+        });
+    });
+    stars.forEach(function(s) { s.classList.add('active'); });
+</script>
+{% endblock %}

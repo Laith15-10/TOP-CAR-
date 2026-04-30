@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "تم الرفض" %} | TOP CAR{% endblock %}
+
+{% block content %}
+<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:70vh; text-align:center; gap:20px; padding:30px;">
+    <div style="font-size:64px;">❌</div>
+    <div style="color:#e74c3c; font-size:24px; font-weight:800;">{% trans "تم رفض طلبك" %}</div>
+    <p style="color:#8892a4; font-size:15px; max-width:300px; line-height:1.7;">
+        {% trans "للأسف تم رفض طلب تسجيلك. يرجى التواصل مع الدعم للمزيد من المعلومات." %}
+    </p>
+    <a href="{% url 'logout' %}" class="neon-btn-outline" style="max-width:200px;">{% trans "خروج" %}</a>
+</div>
+{% endblock %}
+{% block bottom_nav %}{% endblock %}

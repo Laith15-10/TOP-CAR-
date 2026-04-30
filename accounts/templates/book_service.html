@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "حجز خدمة" %} | TOP CAR{% endblock %}
+{% block nav_home %}active{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="color:#00ffcc; font-weight:800; font-size:22px;">{% trans "حجز خدمة جديدة" %} 🚗</div>
+</div>
+
+<div class="card-dark">
+    <form method="POST" id="booking-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <div style="margin-bottom:16px;">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <div style="color:#e74c3c; font-size:13px; margin-top:4px;">{{ field.errors.0 }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div style="margin-bottom:16px;">
+            <label>{% trans "حدد موقعك على الخريطة" %} 📍</label>
+            <div id="map"></div>
+            <p style="color:#8892a4; font-size:12px; margin-top:6px;">{% trans "اضغط على الخريطة لتحديد موقعك" %}</p>
+        </div>
+
+        <button type="submit" class="neon-btn">{% trans "تأكيد الحجز" %}</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([31.95, 35.91], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    var marker = null;
+    var latInput = document.getElementById('id_customer_lat');
+    var lonInput = document.getElementById('id_customer_lon');
+
+    // Pre-fill from service query param
+    var urlParams = new URLSearchParams(window.location.search);
+    var svc = urlParams.get('service');
+    if (svc) {
+        var svcSelect = document.getElementById('id_service_type');
+        if (svcSelect) svcSelect.value = svc;
+    }
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            var lat = pos.coords.latitude;
+            var lon = pos.coords.longitude;
+            map.setView([lat, lon], 14);
+            marker = L.marker([lat, lon]).addTo(map).bindPopup('{% trans "موقعك" %}').openPopup();
+            latInput.value = lat;
+            lonInput.value = lon;
+        });
+    }
+
+    map.on('click', function(e) {
+        var lat = e.latlng.lat;
+        var lon = e.latlng.lng;
+        if (marker) marker.setLatLng([lat, lon]);
+        else marker = L.marker([lat, lon]).addTo(map);
+        latInput.value = lat;
+        lonInput.value = lon;
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "لوحة السائق" %} | TOP CAR{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="color:#00ffcc; font-weight:800; font-size:22px;">{% trans "لوحة السائق" %} 🚗</div>
+    <p style="color:#8892a4; font-size:14px;">{{ user.get_full_name|default:user.username }}</p>
+</div>
+
+{% if pending_order %}
+<div class="card-dark" style="border-color:#f39c12;">
+    <div style="color:#f39c12; font-weight:800; font-size:17px; margin-bottom:12px;">🔔 {% trans "طلب جديد!" %}</div>
+    <div style="font-size:14px; color:#8892a4; margin-bottom:6px;">{% trans "العميل" %}: <span style="color:#f0f4f8;">{{ pending_order.customer_name }}</span></div>
+    <div style="font-size:14px; color:#8892a4; margin-bottom:6px;">{% trans "الخدمة" %}: <span style="color:#00ffcc;">{{ pending_order.get_service_type_display }}</span></div>
+    <div style="font-size:14px; color:#8892a4; margin-bottom:6px;">{% trans "السيارة" %}: <span style="color:#f0f4f8;">{{ pending_order.car_model }}</span></div>
+    <div style="font-size:14px; color:#8892a4; margin-bottom:6px;">{% trans "الدفع" %}: <span style="color:#f0f4f8;">{{ pending_order.get_payment_method_display }}</span></div>
+    <div id="req-map" style="height:200px; border-radius:12px; margin:12px 0;"></div>
+    <div style="display:flex; gap:10px; margin-top:10px;">
+        <form method="POST" action="{% url 'accept_order' pending_order.pk %}" style="flex:1;">
+            {% csrf_token %}
+            <button type="submit" class="neon-btn">✅ {% trans "قبول" %}</button>
+        </form>
+        <button class="danger-btn" id="show-reject-btn" style="flex:1;" onclick="document.getElementById('reject-form').style.display='block'; this.style.display='none';">
+            ❌ {% trans "رفض" %}
+        </button>
+    </div>
+    <div id="reject-form" style="display:none; margin-top:12px;">
+        <form method="POST" action="{% url 'reject_order' pending_order.pk %}">
+            {% csrf_token %}
+            <label>{% trans "سبب الرفض (مطلوب)" %}</label>
+            <textarea name="reason" class="form-control" rows="3" required placeholder="{% trans 'اكتب سبب الرفض...' %}"></textarea>
+            <button type="submit" class="danger-btn" style="margin-top:10px;">{% trans "تأكيد الرفض" %}</button>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+{% if active_order %}
+<div class="card-dark" style="border-color:#00ffcc;">
+    <div style="color:#00ffcc; font-weight:800; font-size:17px; margin-bottom:12px;">{% trans "الطلب الحالي" %} 🚗</div>
+    <div style="font-size:14px; color:#8892a4; margin-bottom:6px;">{% trans "العميل" %}: <span style="color:#f0f4f8;">{{ active_order.customer_name }}</span></div>
+    <div style="font-size:14px; color:#8892a4; margin-bottom:6px;">{% trans "الخدمة" %}: <span style="color:#00ffcc;">{{ active_order.get_service_type_display }}</span></div>
+    <div style="font-size:14px; color:#8892a4; margin-bottom:10px;">{% trans "الحالة" %}:
+        <span class="status-badge status-{{ active_order.status }}" id="active-status">{{ active_order.get_status_display }}</span>
+    </div>
+    <div id="active-map" style="height:200px; border-radius:12px; margin-bottom:12px;"></div>
+
+    {% if active_order.status == 'accepted' %}
+    <form method="POST" action="{% url 'update_order_status' active_order.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="status" value="arrived">
+        <button type="submit" class="neon-btn">{% trans "وصلت للعميل" %} 📍</button>
+    </form>
+    {% elif active_order.status == 'arrived' %}
+    <form method="POST" action="{% url 'update_order_status' active_order.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="status" value="picking_up">
+        <button type="submit" class="neon-btn">{% trans "جاري استلام السيارة" %} 🔑</button>
+    </form>
+    {% elif active_order.status == 'picking_up' %}
+    <form method="POST" action="{% url 'update_order_status' active_order.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="status" value="in_progress">
+        <button type="submit" class="neon-btn">{% trans "بدء تنفيذ الخدمة" %} ⚙️</button>
+    </form>
+    {% elif active_order.status == 'in_progress' %}
+    <form method="POST" action="{% url 'update_order_status' active_order.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="status" value="finished">
+        <button type="submit" class="neon-btn">{% trans "اكتملت الخدمة" %} ✅</button>
+    </form>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if not pending_order and not active_order %}
+<div style="text-align:center; padding:50px 20px; color:#8892a4;">
+    <div style="font-size:50px; margin-bottom:16px;">🕐</div>
+    <div style="font-size:16px;">{% trans "في انتظار طلبات جديدة..." %}</div>
+    <div style="font-size:13px; margin-top:8px; color:#555;">{% trans "ستصلك الطلبات تلقائياً عبر الشبكة" %}</div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    {% if pending_order %}
+    var reqMap = L.map('req-map').setView([{{ pending_order.customer_lat }}, {{ pending_order.customer_lon }}], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(reqMap);
+    L.marker([{{ pending_order.customer_lat }}, {{ pending_order.customer_lon }}], {
+        icon: L.divIcon({className:'', html:'<div style="font-size:26px;">📍</div>'})
+    }).addTo(reqMap).bindPopup('{% trans "موقع العميل" %}').openPopup();
+    {% endif %}
+
+    {% if active_order %}
+    var activeMap = L.map('active-map').setView([{{ active_order.customer_lat }}, {{ active_order.customer_lon }}], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(activeMap);
+    L.marker([{{ active_order.customer_lat }}, {{ active_order.customer_lon }}], {
+        icon: L.divIcon({className:'', html:'<div style="font-size:26px;">📍</div>'})
+    }).addTo(activeMap).bindPopup('{% trans "موقع العميل" %}');
+    {% endif %}
+
+    // Driver location broadcasting
+    var driverId = {{ driver.pk }};
+    var activeOrderId = {% if active_order %}{{ active_order.pk }}{% else %}null{% endif %};
+
+    var wsProto = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    var ws = new WebSocket(wsProto + '://' + window.location.host + '/ws/driver/' + driverId + '/');
+
+    ws.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        if (data.type === 'new_order') {
+            window.location.reload();
+        }
+    };
+
+    if (navigator.geolocation) {
+        setInterval(function() {
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                var payload = {
+                    type: 'location_update',
+                    lat: pos.coords.latitude,
+                    lon: pos.coords.longitude,
+                    order_id: activeOrderId
+                };
+                if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(payload));
+                // Also REST fallback
+                fetch('{% url "driver_location_api" %}', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}'},
+                    body: JSON.stringify({lat: pos.coords.latitude, lon: pos.coords.longitude, order_id: activeOrderId})
+                });
+            });
+        }, 5000);
+    }
+</script>
+{% endblock %}

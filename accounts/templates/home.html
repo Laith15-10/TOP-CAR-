@@ -1,229 +1,49 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TOP CAR - توب كار</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <style>
-        /* الألوان الأساسية للستايل التقني الحديث */
-        :root {
-            --bg-dark: #020617; /* كحلي غامق جداً */
-            --card-bg: #1e293b; /* لون البطاقة */
-            --neon-blue: #38bdf8; /* أزرق نيون */
-            --neon-glow: 0 0 15px rgba(56, 189, 248, 0.5);
-            --text-main: #f8fafc;
-        }
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "الرئيسية" %} | TOP CAR{% endblock %}
+{% block nav_home %}active{% endblock %}
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            padding-bottom: 30px;
-        }
+{% block content %}
+<div class="page-header">
+    <div class="neon-title" style="font-size:30px;">TOP CAR</div>
+    <p style="color:#8892a4; margin-top:4px;">{% trans "مرحباً" %} {{ user.first_name|default:user.username }} 👋</p>
+</div>
 
-        /* تنسيق الهيدر */
-        .header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .welcome-text {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--text-main);
-            margin-bottom: 5px;
-        }
+<p style="color:#8892a4; font-size:14px; text-align:center; margin-bottom:18px;">{% trans "اختر الخدمة التي تحتاجها سيارتك:" %}</p>
 
-        .subtitle-text {
-            font-size: 16px;
-            color: #94a3b8;
-            margin-bottom: 25px;
-        }
-
-        /* تنسيق الأزرار/الخدمات لتصبح كبطاقات (مثل الصورة الثانية) */
-        .service-card {
-            background-color: var(--card-bg);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 15px;
-            text-decoration: none; /* إزالة الخط تحت الرابط */
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .service-card:hover {
-            border-color: var(--neon-blue);
-            box-shadow: var(--neon-glow);
-            transform: translateY(-2px);
-        }
-
-        .service-icon {
-            font-size: 30px;
-            margin-left: 15px; /* مسافة على اليسار لأننا RTL */
-        }
-
-        .service-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--neon-blue); /* لون النص أزرق نيون */
-            flex-grow: 1;
-        }
-
-        /* زر خروج مميز */
-        .logout-btn {
-            background-color: #ef4444; /* أحمر للخروج */
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 10px 20px;
-            width: 100%;
-            margin-top: 20px;
-            font-weight: bold;
-        }
-        /* كود لجعل التطبيق Full Screen */
-header, .navbar {
-    display: none !important; /* إخفاء أي هيدر قديم */
-}
-body {
-    padding-top: env(safe-area-inset-top); /* حماية منطقة الكاميرا/الساعة */
-    padding-bottom: 80px; /* مسافة عشان الشريط السفلي ما يغطي المحتوى */
-}
-        .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 70px;
-    background: rgba(30, 41, 59, 0.95); /* لون زجاجي كحلي */
-    backdrop-filter: blur(10px);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-top: 1px solid rgba(56, 189, 248, 0.3);
-    z-index: 1000;
-    padding-bottom: env(safe-area-inset-bottom);
-}
-
-.nav-item {
-    text-decoration: none;
-    color: #94a3b8;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: 0.3s;
-}
-
-.nav-item.active {
-    color: #38bdf8; /* لون النيون للزر النشط */
-}
-
-.nav-item span {
-    font-size: 20px;
-}
-
-.nav-item small {
-    font-size: 12px;
-    margin-top: 4px;
-}
-        /* كود شاشة التحميل - أضفه هنا */
-#splash-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #020617; /* نفس لون الخلفية الغامق الخاص بك */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.loader {
-    border: 4px solid rgba(58, 189, 248, 0.1);
-    border-top: 4px solid #38bdf8; /* لون أزرق نيوني متناسق مع تصميمك */
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-    margin-top: 20px;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div class="header">
-            <div class="welcome-text">مرحباً بك في توب كار </div>
-            <div class="subtitle-text">اختر الخدمة التي تحتاجها سيارتك اليوم:</div>
-        </div>
-
-        <a href="/order/" class="service-card">
-            <div class="service-icon"></div>
-            <div class="service-name">غسيل خارجي</div>
-        </a>
-
-        <a href="/order/" class="service-card">
-            <div class="service-icon"></div>
-            <div class="service-name">غسيل كامل</div>
-        </a>
-
-        <a href="/order/" class="service-card">
-            <div class="service-icon"></div>
-            <div class="service-name">غيّار زيت وفلتر</div>
-        </a>
-
-        <a href="/order/" class="service-card">
-            <div class="service-icon"></div>
-            <div class="service-name">غيّار زيت فقط</div>
-        </a>
-
-        <a href="/order/" class="service-card">
-            <div class="service-icon"></div>
-            <div class="service-name">دراي كلين</div>
-        </a>
-
-        <button class="logout-btn">تسجيل الخروج</button>
-
+<a href="{% url 'book_service' %}?service=body_wash" class="card-dark" style="display:flex; align-items:center; gap:14px; text-decoration:none;">
+    <div style="font-size:30px;">🚿</div>
+    <div>
+        <div style="color:#00ffcc; font-weight:700; font-size:16px;">{% trans "غسيل خارجي" %}</div>
+        <div style="color:#8892a4; font-size:13px;">5 JD</div>
     </div>
-<div class="bottom-nav">
-    <a href="#" class="nav-item active">
-        <span>🏠</span>
-        <small>الرئيسية</small>
-    </a>
-    <a href="#" class="nav-item">
-        <span>👤</span>
-        <small>البروفايل</small>
-    </a>
-    <a href="#" class="nav-item">
-        <span>⚙️</span>
-        <small>الإعدادات</small>
-    </a>
-</div>
-    <div id="splash-screen">
-    <h1 style="color: #38bdf8; font-family: 'Segoe UI'; letter-spacing: 5px; text-shadow: 0 0 15px rgba(56, 189, 248, 0.5);">TOP CAR</h1>
-    <div class="loader"></div>
-</div>
-
-<script>
-    // سيختفي اللودر بمجرد تحميل الصفحة بالكامل
-    window.onload = function() {
-        setTimeout(function() {
-            document.getElementById('splash-screen').style.display = 'none';
-        }, 1500); // 1.5 ثانية كافية لتعطي شعوراً بالفخامة
-    };
-</script>
-</body>
-</html>
+</a>
+<a href="{% url 'book_service' %}?service=full_wash" class="card-dark" style="display:flex; align-items:center; gap:14px; text-decoration:none;">
+    <div style="font-size:30px;">🚗</div>
+    <div>
+        <div style="color:#00ffcc; font-weight:700; font-size:16px;">{% trans "غسيل كامل" %}</div>
+        <div style="color:#8892a4; font-size:13px;">10 JD</div>
+    </div>
+</a>
+<a href="{% url 'book_service' %}?service=dry_clean" class="card-dark" style="display:flex; align-items:center; gap:14px; text-decoration:none;">
+    <div style="font-size:30px;">✨</div>
+    <div>
+        <div style="color:#00ffcc; font-weight:700; font-size:16px;">{% trans "دراي كلين" %}</div>
+        <div style="color:#8892a4; font-size:13px;">15 JD</div>
+    </div>
+</a>
+<a href="{% url 'book_service' %}?service=oil_change" class="card-dark" style="display:flex; align-items:center; gap:14px; text-decoration:none;">
+    <div style="font-size:30px;">🛢️</div>
+    <div>
+        <div style="color:#00ffcc; font-weight:700; font-size:16px;">{% trans "غيّار زيت" %}</div>
+        <div style="color:#8892a4; font-size:13px;">12 JD</div>
+    </div>
+</a>
+<a href="{% url 'book_service' %}?service=oil_filter" class="card-dark" style="display:flex; align-items:center; gap:14px; text-decoration:none;">
+    <div style="font-size:30px;">🔧</div>
+    <div>
+        <div style="color:#00ffcc; font-weight:700; font-size:16px;">{% trans "غيّار زيت وفلتر" %}</div>
+        <div style="color:#8892a4; font-size:13px;">18 JD</div>
+    </div>
+</a>
+{% endblock %}

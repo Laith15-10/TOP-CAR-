@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "تسجيل سائق جديد" %} | TOP CAR{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="neon-title" style="font-size:28px;">TOP CAR</div>
+    <p style="color:#8892a4; margin-top:4px;">{% trans "تسجيل سائق جديد" %}</p>
+</div>
+
+<div class="card-dark">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+        <div style="margin-bottom:16px;">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <div style="color:#e74c3c; font-size:13px; margin-top:4px;">{{ field.errors.0 }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="neon-btn">{% trans "تقديم الطلب للمراجعة" %}</button>
+    </form>
+</div>
+<div style="text-align:center; color:#8892a4; font-size:14px; margin-top:10px;">
+    {% trans "لديك حساب؟" %} <a href="{% url 'login' %}">{% trans "تسجيل الدخول" %}</a>
+</div>
+{% endblock %}
+{% block bottom_nav %}{% endblock %}

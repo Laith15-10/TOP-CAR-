@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "الدفع والتقييم" %} | TOP CAR{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="color:#00ffcc; font-weight:800; font-size:22px;">{% trans "ملخص الخدمة" %} 🧾</div>
+</div>
+
+<div class="card-dark">
+    <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+        <span style="color:#8892a4;">{% trans "الخدمة" %}</span>
+        <span style="color:#f0f4f8; font-weight:600;">{{ order.get_service_type_display }}</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+        <span style="color:#8892a4;">{% trans "السائق" %}</span>
+        <span style="color:#00ffcc;">{{ order.driver_assigned }}</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+        <span style="color:#8892a4;">{% trans "طريقة الدفع" %}</span>
+        <span style="color:#f0f4f8;">{{ order.get_payment_method_display }}</span>
+    </div>
+    <hr style="border-color:#333;">
+    <div style="display:flex; justify-content:space-between; margin-top:12px;">
+        <span style="color:#8892a4; font-size:17px;">{% trans "المبلغ الإجمالي" %}</span>
+        <span style="color:#00ffcc; font-size:24px; font-weight:900;">{{ order.get_price }} JD</span>
+    </div>
+</div>
+
+{% if not order.rating %}
+<div class="card-dark">
+    <div style="color:#f0f4f8; font-weight:700; font-size:17px; text-align:center; margin-bottom:16px;">⭐ {% trans "قيّم السائق" %}</div>
+    <form method="POST" action="{% url 'rate_order' order.pk %}">
+        {% csrf_token %}
+        <div class="star-rating" id="stars">
+            <span data-val="1">★</span>
+            <span data-val="2">★</span>
+            <span data-val="3">★</span>
+            <span data-val="4">★</span>
+            <span data-val="5">★</span>
+        </div>
+        <input type="hidden" name="stars" id="stars-val" value="5">
+        <div style="margin-top:14px;">
+            <label>{% trans "تعليق (اختياري)" %}</label>
+            <textarea name="comment" class="form-control" rows="3" placeholder="{% trans 'أضف تعليقك هنا...' %}"></textarea>
+        </div>
+        <button type="submit" class="neon-btn" style="margin-top:14px;">{% trans "إرسال التقييم" %}</button>
+    </form>
+</div>
+{% else %}
+<div class="card-dark" style="text-align:center;">
+    <div style="font-size:40px; margin-bottom:8px;">✅</div>
+    <div style="color:#00ffcc; font-weight:700;">{% trans "شكراً على تقييمك!" %}</div>
+</div>
+<a href="{% url 'home' %}" class="neon-btn" style="display:block; text-align:center; margin-top:12px;">{% trans "العودة للرئيسية" %}</a>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    var stars = document.querySelectorAll('.star-rating span');
+    var starsVal = document.getElementById('stars-val');
+    stars.forEach(function(s) {
+        s.addEventListener('click', function() {
+            var val = parseInt(this.dataset.val);
+            starsVal.value = val;
+            stars.forEach(function(ss, i) {
+                ss.classList.toggle('active', i < val);
+            });
+        });
+    });
+    // Default 5 stars
+    stars.forEach(function(s, i) { s.classList.add('active'); });
+</script>
+{% endblock %}

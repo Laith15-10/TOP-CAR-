@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "قيد المراجعة" %} | TOP CAR{% endblock %}
+
+{% block content %}
+<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:70vh; text-align:center; gap:20px; padding:30px;">
+    <div style="font-size:64px;">⏳</div>
+    <div class="neon-title" style="font-size:26px;">{% trans "بياناتك قيد المراجعة" %}</div>
+    <p style="color:#8892a4; font-size:15px; max-width:300px; line-height:1.7;">
+        {% trans "شكراً لتسجيلك! سيقوم الفريق بمراجعة بياناتك وإشعارك فور الموافقة." %}
+    </p>
+    <a href="{% url 'logout' %}" class="neon-btn-outline" style="max-width:200px;">{% trans "خروج" %}</a>
+</div>
+{% endblock %}
+{% block bottom_nav %}{% endblock %}

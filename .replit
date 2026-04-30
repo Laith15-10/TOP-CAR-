@@ -23,13 +23,13 @@ args = "Start application"
 name = "Start application"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python3.11 manage.py runserver 0.0.0.0:5000"
-waitForPort = 5000
-
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python3.11 manage.py migrate --no-input && daphne -b 0.0.0.0 -p 5000 car_wash_pro.asgi:application"
+waitForPort = 5000
 
 [[ports]]
 localPort = 5000

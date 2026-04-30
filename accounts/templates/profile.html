@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "البروفايل" %} | TOP CAR{% endblock %}
+{% block nav_profile %}active{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="font-size:56px; margin-bottom:8px;">👤</div>
+    <div style="color:#00ffcc; font-weight:800; font-size:22px;">{{ user.get_full_name|default:user.username }}</div>
+    <div style="color:#8892a4; font-size:14px; margin-top:4px;">{{ user.email }}</div>
+</div>
+
+{% if driver %}
+<div class="card-dark">
+    <div style="color:#00ffcc; font-weight:700; margin-bottom:14px;">{% trans "معلومات السائق" %}</div>
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+        <span style="color:#8892a4;">{% trans "الهاتف" %}</span>
+        <span>{{ driver.phone }}</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+        <span style="color:#8892a4;">{% trans "السيارة" %}</span>
+        <span>{{ driver.car_model }} - {{ driver.car_color }} ({{ driver.car_year }})</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+        <span style="color:#8892a4;">{% trans "متوسط التقييم" %}</span>
+        <span style="color:#f7c948; font-size:18px;">{{ avg_rating }} ⭐</span>
+    </div>
+    <div style="display:flex; justify-content:space-between;">
+        <span style="color:#8892a4;">{% trans "حالة الحساب" %}</span>
+        <span class="status-badge status-{{ driver.approval_status }}">{{ driver.get_approval_status_display }}</span>
+    </div>
+</div>
+{% else %}
+<div class="card-dark">
+    <div style="color:#8892a4; font-size:14px; margin-bottom:10px;">{% trans "حساب العميل" %}</div>
+    {% if user.customer_profile %}
+    <div style="display:flex; justify-content:space-between;">
+        <span style="color:#8892a4;">{% trans "الهاتف" %}</span>
+        <span>{{ user.customer_profile.phone }}</span>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+<div class="card-dark">
+    <div style="color:#8892a4; font-size:13px; margin-bottom:8px;">{% trans "تبديل اللغة" %}</div>
+    <form action="{% url 'set_language' %}" method="post" style="display:flex; gap:10px;">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+        <button name="language" value="ar" type="submit" class="neon-btn-outline" style="flex:1;">العربية</button>
+        <button name="language" value="en" type="submit" class="neon-btn-outline" style="flex:1;">English</button>
+    </form>
+</div>
+
+<a href="{% url 'logout' %}" class="danger-btn" style="display:block; text-align:center; margin-top:10px; text-decoration:none; border-radius:14px; padding:14px;">
+    🚪 {% trans "تسجيل الخروج" %}
+</a>
+{% endblock %}

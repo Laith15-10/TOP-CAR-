@@ -1,0 +1,193 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+{% if LANGUAGE_CODE == 'ar' %}
+<html lang="ar" dir="rtl">
+{% else %}
+<html lang="en" dir="ltr">
+{% endif %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>{% block title %}TOP CAR{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <style>
+        :root {
+            --bg-dark: #0d0d0d;
+            --card-bg: #1a1a2e;
+            --neon-green: #00ffcc;
+            --neon-cyan: #00e5ff;
+            --neon-glow: 0 0 18px rgba(0,255,204,0.45);
+            --text-main: #f0f4f8;
+            --text-muted: #8892a4;
+        }
+        * { box-sizing: border-box; }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            padding-top: env(safe-area-inset-top);
+        }
+        a { color: var(--neon-cyan); text-decoration: none; }
+        a:hover { color: var(--neon-green); }
+
+        .neon-title {
+            color: var(--neon-green);
+            text-shadow: var(--neon-glow);
+            font-weight: 900;
+            letter-spacing: 4px;
+        }
+        .neon-btn {
+            background: linear-gradient(135deg, #00ffcc, #00e5ff);
+            color: #000;
+            border: none;
+            border-radius: 14px;
+            padding: 13px 24px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: var(--neon-glow);
+            transition: all .25s ease;
+            width: 100%;
+        }
+        .neon-btn:hover { opacity: .88; transform: translateY(-2px); }
+        .neon-btn-outline {
+            background: transparent;
+            color: var(--neon-green);
+            border: 2px solid var(--neon-green);
+            border-radius: 14px;
+            padding: 11px 22px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .25s ease;
+            width: 100%;
+        }
+        .neon-btn-outline:hover { background: var(--neon-green); color: #000; }
+        .card-dark {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,255,204,.2);
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 16px;
+        }
+        .card-dark:hover { border-color: var(--neon-green); box-shadow: var(--neon-glow); }
+        .form-control, .form-select {
+            background: #111 !important;
+            border: 1px solid #333 !important;
+            color: var(--text-main) !important;
+            border-radius: 12px !important;
+            padding: 12px !important;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--neon-cyan) !important;
+            box-shadow: 0 0 8px rgba(0,229,255,.3) !important;
+            outline: none !important;
+        }
+        label { color: var(--text-muted); font-size: 14px; margin-bottom: 6px; display: block; }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background: rgba(26,26,46,.97);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid rgba(0,255,204,.25);
+            z-index: 1000;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .nav-item {
+            text-decoration: none;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            transition: .25s;
+            flex: 1;
+        }
+        .nav-item.active, .nav-item:hover { color: var(--neon-green); }
+        .nav-item span { font-size: 22px; }
+        .nav-item small { font-size: 11px; }
+        .page-header {
+            padding: 18px 20px 10px;
+            text-align: center;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .status-pending { background: rgba(255,193,7,.15); color: #ffc107; }
+        .status-accepted { background: rgba(0,255,204,.15); color: var(--neon-green); }
+        .status-finished { background: rgba(40,167,69,.15); color: #28a745; }
+        .status-rejected { background: rgba(220,53,69,.15); color: #dc3545; }
+        #map { height: 250px; border-radius: 14px; border: 1px solid rgba(0,255,204,.3); }
+        .alert-neon {
+            background: rgba(0,229,255,.1);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 12px;
+            padding: 14px;
+            color: var(--neon-cyan);
+            margin-bottom: 14px;
+        }
+        .danger-btn {
+            background: #c0392b;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 12px 22px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+        }
+        .star-rating { display: flex; gap: 10px; justify-content: center; font-size: 36px; }
+        .star-rating span { cursor: pointer; color: #555; transition: color .2s; }
+        .star-rating span.active { color: #f7c948; text-shadow: 0 0 10px rgba(247,201,72,.6); }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+{% block splash %}{% endblock %}
+
+<div class="container" style="max-width:480px; padding:0 16px;">
+    {% if messages %}
+    <div style="margin-top:12px;">
+        {% for message in messages %}
+        <div class="alert-neon">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+</div>
+
+{% block bottom_nav %}
+{% if user.is_authenticated %}
+<nav class="bottom-nav">
+    <a href="{% url 'home' %}" class="nav-item {% block nav_home %}{% endblock %}">
+        <span>🏠</span><small>{% trans "الرئيسية" %}</small>
+    </a>
+    <a href="{% url 'settings' %}" class="nav-item {% block nav_settings %}{% endblock %}">
+        <span>⚙️</span><small>{% trans "الإعدادات" %}</small>
+    </a>
+    <a href="{% url 'profile' %}" class="nav-item {% block nav_profile %}{% endblock %}">
+        <span>👤</span><small>{% trans "البروفايل" %}</small>
+    </a>
+</nav>
+{% endif %}
+{% endblock %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "الإعدادات" %} | TOP CAR{% endblock %}
+{% block nav_settings %}active{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="color:#00ffcc; font-weight:800; font-size:22px;">⚙️ {% trans "الإعدادات" %}</div>
+</div>
+
+<div class="card-dark">
+    <div style="color:#8892a4; font-size:13px; margin-bottom:10px;">{% trans "اللغة / Language" %}</div>
+    <form action="{% url 'set_language' %}" method="post" style="display:flex; gap:10px;">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+        <button name="language" value="ar" type="submit" class="neon-btn-outline" style="flex:1;">🇯🇴 العربية</button>
+        <button name="language" value="en" type="submit" class="neon-btn-outline" style="flex:1;">🇬🇧 English</button>
+    </form>
+</div>
+
+<div class="card-dark">
+    <div style="color:#8892a4; font-size:13px; margin-bottom:4px;">{% trans "الإصدار" %}</div>
+    <div style="color:#00ffcc; font-weight:700;">TOP CAR v1.0</div>
+</div>
+{% endblock %}

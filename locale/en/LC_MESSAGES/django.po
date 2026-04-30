@@ -1,0 +1,264 @@
+# English translations for TOP CAR
+msgid ""
+msgstr ""
+"Project-Id-Version: TOP CAR 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-30 00:00+0000\n"
+"PO-Revision-Date: 2026-04-30 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "الرئيسية"
+msgstr "Home"
+
+msgid "الإعدادات"
+msgstr "Settings"
+
+msgid "البروفايل"
+msgstr "Profile"
+
+msgid "تسجيل الدخول"
+msgstr "Login"
+
+msgid "تسجيل الخروج"
+msgstr "Logout"
+
+msgid "مرحباً بعودتك"
+msgstr "Welcome back"
+
+msgid "خدمات السيارات المتنقلة"
+msgstr "Mobile Car Services"
+
+msgid "خدمتك على باب بيتك"
+msgstr "Service at your doorstep"
+
+msgid "تسجيل كعميل"
+msgstr "Register as Customer"
+
+msgid "تسجيل كسائق"
+msgstr "Register as Driver"
+
+msgid "مرحباً"
+msgstr "Hello"
+
+msgid "اختر الخدمة التي تحتاجها سيارتك:"
+msgstr "Choose a service for your car:"
+
+msgid "غسيل خارجي"
+msgstr "Body Wash"
+
+msgid "غسيل كامل"
+msgstr "Full Wash"
+
+msgid "دراي كلين"
+msgstr "Dry Clean"
+
+msgid "غيّار زيت"
+msgstr "Oil Change"
+
+msgid "غيّار زيت وفلتر"
+msgstr "Oil & Filter Change"
+
+msgid "حجز خدمة جديدة"
+msgstr "Book New Service"
+
+msgid "تأكيد الحجز"
+msgstr "Confirm Booking"
+
+msgid "حدد موقعك على الخريطة"
+msgstr "Pin your location on the map"
+
+msgid "اضغط على الخريطة لتحديد موقعك"
+msgstr "Tap the map to set your location"
+
+msgid "لا يوجد سائق متاح حالياً. يرجى المحاولة لاحقاً."
+msgstr "No drivers available right now. Please try later."
+
+msgid "تتبع طلبك"
+msgstr "Track Your Order"
+
+msgid "حالة الطلب"
+msgstr "Order Status"
+
+msgid "السائق"
+msgstr "Driver"
+
+msgid "الخدمة"
+msgstr "Service"
+
+msgid "موقعك"
+msgstr "Your Location"
+
+msgid "الوقت المتوقع للوصول"
+msgstr "Estimated Arrival Time"
+
+msgid "الدفع والتقييم"
+msgstr "Payment & Rating"
+
+msgid "سجل الرفض"
+msgstr "Rejection Log"
+
+msgid "رُفض الطلب"
+msgstr "Order rejected"
+
+msgid "لا يوجد سائق متاح حالياً"
+msgstr "No driver available right now"
+
+msgid "لوحة السائق"
+msgstr "Driver Dashboard"
+
+msgid "طلب جديد!"
+msgstr "New Request!"
+
+msgid "العميل"
+msgstr "Customer"
+
+msgid "السيارة"
+msgstr "Car"
+
+msgid "الدفع"
+msgstr "Payment"
+
+msgid "قبول"
+msgstr "Accept"
+
+msgid "رفض"
+msgstr "Reject"
+
+msgid "سبب الرفض (مطلوب)"
+msgstr "Rejection Reason (required)"
+
+msgid "اكتب سبب الرفض..."
+msgstr "Enter rejection reason..."
+
+msgid "تأكيد الرفض"
+msgstr "Confirm Rejection"
+
+msgid "الطلب الحالي"
+msgstr "Current Order"
+
+msgid "الحالة"
+msgstr "Status"
+
+msgid "وصلت للعميل"
+msgstr "Arrived at Customer"
+
+msgid "جاري استلام السيارة"
+msgstr "Picking Up Car"
+
+msgid "بدء تنفيذ الخدمة"
+msgstr "Start Service"
+
+msgid "اكتملت الخدمة"
+msgstr "Service Finished"
+
+msgid "في انتظار طلبات جديدة..."
+msgstr "Waiting for new orders..."
+
+msgid "ستصلك الطلبات تلقائياً عبر الشبكة"
+msgstr "Orders will arrive automatically via network"
+
+msgid "موقع العميل"
+msgstr "Customer Location"
+
+msgid "ملخص الخدمة"
+msgstr "Service Summary"
+
+msgid "طريقة الدفع"
+msgstr "Payment Method"
+
+msgid "المبلغ الإجمالي"
+msgstr "Total Amount"
+
+msgid "قيّم السائق"
+msgstr "Rate Driver"
+
+msgid "تعليق (اختياري)"
+msgstr "Comment (optional)"
+
+msgid "أضف تعليقك هنا..."
+msgstr "Add your comment here..."
+
+msgid "إرسال التقييم"
+msgstr "Submit Rating"
+
+msgid "شكراً على تقييمك!"
+msgstr "Thank you for your rating!"
+
+msgid "العودة للرئيسية"
+msgstr "Back to Home"
+
+msgid "قيّم الخدمة"
+msgstr "Rate Service"
+
+
+msgid "معلومات السائق"
+msgstr "Driver Information"
+
+msgid "الهاتف"
+msgstr "Phone"
+
+msgid "متوسط التقييم"
+msgstr "Average Rating"
+
+msgid "حالة الحساب"
+msgstr "Account Status"
+
+msgid "حساب العميل"
+msgstr "Customer Account"
+
+msgid "تبديل اللغة"
+msgstr "Switch Language"
+
+msgid "الإصدار"
+msgstr "Version"
+
+msgid "اللغة / Language"
+msgstr "Language"
+
+msgid "بياناتك قيد المراجعة"
+msgstr "Your data is under review"
+
+msgid "شكراً لتسجيلك! سيقوم الفريق بمراجعة بياناتك وإشعارك فور الموافقة."
+msgstr "Thank you for registering! The team will review your data and notify you when approved."
+
+msgid "خروج"
+msgstr "Logout"
+
+msgid "تم الرفض"
+msgstr "Rejected"
+
+msgid "للأسف تم رفض طلب تسجيلك. يرجى التواصل مع الدعم للمزيد من المعلومات."
+msgstr "Unfortunately your registration was rejected. Please contact support for more information."
+
+msgid "تسجيل عميل جديد"
+msgstr "Customer Registration"
+
+msgid "إنشاء حساب عميل"
+msgstr "Create Customer Account"
+
+msgid "إنشاء الحساب"
+msgstr "Create Account"
+
+msgid "لديك حساب بالفعل؟"
+msgstr "Already have an account?"
+
+msgid "تسجيل سائق جديد"
+msgstr "Driver Registration"
+
+msgid "تقديم الطلب للمراجعة"
+msgstr "Submit for Review"
+
+msgid "لديك حساب؟"
+msgstr "Have an account?"
+
+msgid "ليس لديك حساب؟"
+msgstr "Don't have an account?"
+
+msgid "أو إنشاء حساب جديد"
+msgstr "Or create new account"
