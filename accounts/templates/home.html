@@ -6,41 +6,41 @@
 {% block content %}
 <div class="page-header">
     <div class="neon-title" style="font-size:30px;">TOP CAR</div>
-    <p style="color:#8892a4; margin-top:4px;">{% trans "مرحباً" %} {{ user.first_name|default:user.username }} 👋</p>
+    <p style="color:#8892a4; margin-top:4px;">{% trans "مرحباً" %} {{ user.first_name|default:user.username }}</p>
 </div>
 
 <p style="color:#8892a4; font-size:14px; text-align:center; margin-bottom:18px;">{% trans "اختر الخدمة التي تحتاجها سيارتك:" %}</p>
 
 <a href="{% url 'book_service' %}?service=body_wash" class="card-dark" style="display:flex; align-items:center; gap:14px; text-decoration:none;">
-    <div style="font-size:30px;">🚿</div>
+    <div class="service-icon"><i class="fa-solid fa-shower"></i></div>
     <div>
         <div style="color:#00ffcc; font-weight:700; font-size:16px;">{% trans "غسيل خارجي" %}</div>
         <div style="color:#8892a4; font-size:13px;">5 JD</div>
     </div>
 </a>
 <a href="{% url 'book_service' %}?service=full_wash" class="card-dark" style="display:flex; align-items:center; gap:14px; text-decoration:none;">
-    <div style="font-size:30px;">🚗</div>
+    <div class="service-icon"><i class="fa-solid fa-car-side"></i></div>
     <div>
         <div style="color:#00ffcc; font-weight:700; font-size:16px;">{% trans "غسيل كامل" %}</div>
         <div style="color:#8892a4; font-size:13px;">10 JD</div>
     </div>
 </a>
 <a href="{% url 'book_service' %}?service=dry_clean" class="card-dark" style="display:flex; align-items:center; gap:14px; text-decoration:none;">
-    <div style="font-size:30px;">✨</div>
+    <div class="service-icon"><i class="fa-solid fa-wind"></i></div>
     <div>
         <div style="color:#00ffcc; font-weight:700; font-size:16px;">{% trans "دراي كلين" %}</div>
         <div style="color:#8892a4; font-size:13px;">15 JD</div>
     </div>
 </a>
 <a href="{% url 'book_service' %}?service=oil_change" class="card-dark" style="display:flex; align-items:center; gap:14px; text-decoration:none;">
-    <div style="font-size:30px;">🛢️</div>
+    <div class="service-icon"><i class="fa-solid fa-oil-can"></i></div>
     <div>
         <div style="color:#00ffcc; font-weight:700; font-size:16px;">{% trans "غيّار زيت" %}</div>
         <div style="color:#8892a4; font-size:13px;">12 JD</div>
     </div>
 </a>
 <a href="{% url 'book_service' %}?service=oil_filter" class="card-dark" style="display:flex; align-items:center; gap:14px; text-decoration:none;">
-    <div style="font-size:30px;">🔧</div>
+    <div class="service-icon"><i class="fa-solid fa-wrench"></i></div>
     <div>
         <div style="color:#00ffcc; font-weight:700; font-size:16px;">{% trans "غيّار زيت وفلتر" %}</div>
         <div style="color:#8892a4; font-size:13px;">18 JD</div>

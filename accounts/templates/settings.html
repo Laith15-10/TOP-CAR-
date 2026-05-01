@@ -5,7 +5,9 @@
 
 {% block content %}
 <div class="page-header">
-    <div style="color:#00ffcc; font-weight:800; font-size:22px;">⚙️ {% trans "الإعدادات" %}</div>
+    <div style="color:#00ffcc; font-weight:800; font-size:22px;">
+        <i class="fa-solid fa-gear" style="color:var(--icon-blue); margin-inline-end:8px;"></i>{% trans "الإعدادات" %}
+    </div>
 </div>
 
 <div class="card-dark">
@@ -13,8 +15,8 @@
     <form action="{% url 'set_language' %}" method="post" style="display:flex; gap:10px;">
         {% csrf_token %}
         <input name="next" type="hidden" value="{{ request.get_full_path }}">
-        <button name="language" value="ar" type="submit" class="neon-btn-outline" style="flex:1;">🇯🇴 العربية</button>
-        <button name="language" value="en" type="submit" class="neon-btn-outline" style="flex:1;">🇬🇧 English</button>
+        <button name="language" value="ar" type="submit" class="neon-btn-outline" style="flex:1;"><i class="fa-solid fa-globe" style="margin-inline-end:5px;"></i>العربية</button>
+        <button name="language" value="en" type="submit" class="neon-btn-outline" style="flex:1;"><i class="fa-solid fa-globe" style="margin-inline-end:5px;"></i>English</button>
     </form>
 </div>
 

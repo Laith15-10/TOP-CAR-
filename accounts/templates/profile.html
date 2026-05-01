@@ -5,7 +5,11 @@
 
 {% block content %}
 <div class="page-header">
-    <div style="font-size:56px; margin-bottom:8px;">👤</div>
+    <div style="margin-bottom:12px;">
+        <div style="width:80px;height:80px;border-radius:50%;background:var(--icon-bg);border:1px solid var(--icon-border);display:inline-flex;align-items:center;justify-content:center;">
+            <i class="fa-solid fa-circle-user" style="font-size:40px; color:var(--icon-blue);"></i>
+        </div>
+    </div>
     <div style="color:#00ffcc; font-weight:800; font-size:22px;">{{ user.get_full_name|default:user.username }}</div>
     <div style="color:#8892a4; font-size:14px; margin-top:4px;">{{ user.email }}</div>
 </div>
@@ -23,7 +27,7 @@
     </div>
     <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
         <span style="color:#8892a4;">{% trans "متوسط التقييم" %}</span>
-        <span style="color:#f7c948; font-size:18px;">{{ avg_rating }} ⭐</span>
+        <span style="color:#f7c948; font-size:18px;">{{ avg_rating }} <i class="fa-solid fa-star" style="font-size:16px;"></i></span>
     </div>
     <div style="display:flex; justify-content:space-between;">
         <span style="color:#8892a4;">{% trans "حالة الحساب" %}</span>
@@ -53,6 +57,6 @@
 </div>
 
 <a href="{% url 'logout' %}" class="danger-btn" style="display:block; text-align:center; margin-top:10px; text-decoration:none; border-radius:14px; padding:14px;">
-    🚪 {% trans "تسجيل الخروج" %}
+    <i class="fa-solid fa-right-from-bracket" style="margin-inline-end:6px;"></i>{% trans "تسجيل الخروج" %}
 </a>
 {% endblock %}

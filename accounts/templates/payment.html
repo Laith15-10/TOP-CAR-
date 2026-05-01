@@ -4,7 +4,9 @@
 
 {% block content %}
 <div class="page-header">
-    <div style="color:#00ffcc; font-weight:800; font-size:22px;">{% trans "ملخص الخدمة" %} 🧾</div>
+    <div style="color:#00ffcc; font-weight:800; font-size:22px;">
+        <i class="fa-solid fa-receipt" style="color:var(--icon-blue); margin-inline-end:8px;"></i>{% trans "ملخص الخدمة" %}
+    </div>
 </div>
 
 <div class="card-dark">
@@ -29,7 +31,9 @@
 
 {% if not order.rating %}
 <div class="card-dark">
-    <div style="color:#f0f4f8; font-weight:700; font-size:17px; text-align:center; margin-bottom:16px;">⭐ {% trans "قيّم السائق" %}</div>
+    <div style="color:#f0f4f8; font-weight:700; font-size:17px; text-align:center; margin-bottom:16px;">
+        <i class="fa-solid fa-star" style="color:#f7c948; margin-inline-end:6px;"></i>{% trans "قيّم السائق" %}
+    </div>
     <form method="POST" action="{% url 'rate_order' order.pk %}">
         {% csrf_token %}
         <div class="star-rating" id="stars">
@@ -49,7 +53,11 @@
 </div>
 {% else %}
 <div class="card-dark" style="text-align:center;">
-    <div style="font-size:40px; margin-bottom:8px;">✅</div>
+    <div style="margin-bottom:12px;">
+        <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,255,204,0.1);border:1px solid rgba(0,255,204,0.3);display:inline-flex;align-items:center;justify-content:center;">
+            <i class="fa-solid fa-circle-check" style="font-size:28px; color:#00ffcc;"></i>
+        </div>
+    </div>
     <div style="color:#00ffcc; font-weight:700;">{% trans "شكراً على تقييمك!" %}</div>
 </div>
 <a href="{% url 'home' %}" class="neon-btn" style="display:block; text-align:center; margin-top:12px;">{% trans "العودة للرئيسية" %}</a>

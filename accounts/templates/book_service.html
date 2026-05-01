@@ -9,7 +9,9 @@
 
 {% block content %}
 <div class="page-header">
-    <div style="color:#00ffcc; font-weight:800; font-size:22px;">{% trans "حجز خدمة جديدة" %} 🚗</div>
+    <div style="color:#00ffcc; font-weight:800; font-size:22px;">
+        <i class="fa-solid fa-calendar-plus" style="color:var(--icon-blue); margin-inline-end:8px;"></i>{% trans "حجز خدمة جديدة" %}
+    </div>
 </div>
 
 <div class="card-dark">
@@ -26,7 +28,7 @@
         {% endfor %}
 
         <div style="margin-bottom:16px;">
-            <label>{% trans "حدد موقعك على الخريطة" %} 📍</label>
+            <label><i class="fa-solid fa-location-dot" style="color:#5b9bd5; margin-inline-end:5px;"></i>{% trans "حدد موقعك على الخريطة" %}</label>
             <div id="map"></div>
             <p style="color:#8892a4; font-size:12px; margin-top:6px;">{% trans "اضغط على الخريطة لتحديد موقعك" %}</p>
         </div>

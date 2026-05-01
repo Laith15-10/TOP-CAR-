@@ -44,6 +44,7 @@ media/               - Uploaded driver verification images
 11. **Driver Cash Panel**: Driver dashboard shows their current cash debt with bank deposit instructions, plus their last 7 daily reports.
 12. **i18n**: Arabic + English, language toggle
 13. **Dark/Neon Theme**: #0d0d0d background, #00ffcc/#00e5ff neon accents, splash screen
+14. **Professional Icons**: Font Awesome 6.5.1 via CDN — all emoji replaced with FA icons in a metallic blue/silver palette (`--icon-blue: #5b9bd5`, `--icon-silver: #b0c4de`). Service cards use `.service-icon` containers with hover glow effects. Map markers use styled CSS divs.
 
 ## Management Commands
 
@@ -67,7 +68,7 @@ python3.11 manage.py migrate && daphne -b 0.0.0.0 -p 5000 car_wash_pro.asgi:appl
 
 ## Default Credentials
 
-- **Admin**: `admin` / `admin123` (at `/admin/`)
+- **Admin**: `admin` / `Admin123!` (at `/admin/`)
 
 ## Deployment
 

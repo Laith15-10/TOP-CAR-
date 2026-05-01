@@ -53,7 +53,7 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     var customerMarker = L.marker([{{ order.customer_lat }}, {{ order.customer_lon }}], {
-        icon: L.divIcon({className:'', html:'<div style="font-size:28px;">📍</div>'})
+        icon: L.divIcon({className:'', html:'<div style="width:28px;height:28px;background:#5b9bd5;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 2px 8px rgba(91,155,213,0.6);"></div>', iconAnchor:[14,28]})
     }).addTo(map).bindPopup('{% trans "موقعك" %}');
 
     var driverMarker = null;
@@ -62,7 +62,7 @@
 
     {% if order.driver_assigned %}
     driverMarker = L.marker([{{ order.driver_assigned.lat }}, {{ order.driver_assigned.lon }}], {
-        icon: L.divIcon({className:'', html:'<div style="font-size:28px;">🚗</div>'})
+        icon: L.divIcon({className:'', html:'<div style="width:28px;height:28px;background:#00ffcc;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,255,204,0.6);display:flex;align-items:center;justify-content:center;"><div style="width:10px;height:10px;background:#000;border-radius:50%;"></div></div>', iconAnchor:[14,14]})
     }).addTo(map).bindPopup('{{ order.driver_assigned }}');
     {% endif %}
 
@@ -94,7 +94,7 @@
             if (driverMarker) driverMarker.setLatLng([lat, lon]);
             else {
                 driverMarker = L.marker([lat, lon], {
-                    icon: L.divIcon({className:'', html:'<div style="font-size:28px;">🚗</div>'})
+                    icon: L.divIcon({className:'', html:'<div style="width:28px;height:28px;background:#00ffcc;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,255,204,0.6);"></div>', iconAnchor:[14,14]})
                 }).addTo(map);
             }
             if (!countdownInterval) startCountdown(calcEta(lat, lon));
@@ -107,7 +107,7 @@
             if (data.driver_lat && !countdownInterval) {
                 if (!driverMarker) {
                     driverMarker = L.marker([data.driver_lat, data.driver_lon], {
-                        icon: L.divIcon({className:'', html:'<div style="font-size:28px;">🚗</div>'})
+                        icon: L.divIcon({className:'', html:'<div style="width:28px;height:28px;background:#00ffcc;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,255,204,0.6);"></div>', iconAnchor:[14,14]})
                     }).addTo(map);
                 }
                 startCountdown(calcEta(data.driver_lat, data.driver_lon));

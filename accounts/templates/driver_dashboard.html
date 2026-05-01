@@ -8,13 +8,17 @@
 
 {% block content %}
 <div class="page-header">
-    <div style="color:#00ffcc; font-weight:800; font-size:22px;">{% trans "لوحة السائق" %} 🚗</div>
+    <div style="color:#00ffcc; font-weight:800; font-size:22px;">
+        <i class="fa-solid fa-gauge-high" style="color:var(--icon-blue); margin-inline-end:8px;"></i>{% trans "لوحة السائق" %}
+    </div>
     <p style="color:#8892a4; font-size:14px;">{{ user.get_full_name|default:user.username }}</p>
 </div>
 
 {% if pending_order %}
 <div class="card-dark" style="border-color:#f39c12;">
-    <div style="color:#f39c12; font-weight:800; font-size:17px; margin-bottom:12px;">🔔 {% trans "طلب جديد!" %}</div>
+    <div style="color:#f39c12; font-weight:800; font-size:17px; margin-bottom:12px;">
+        <i class="fa-solid fa-bell" style="margin-inline-end:6px;"></i>{% trans "طلب جديد!" %}
+    </div>
     <div style="font-size:14px; color:#8892a4; margin-bottom:6px;">{% trans "العميل" %}: <span style="color:#f0f4f8;">{{ pending_order.customer_name }}</span></div>
     <div style="font-size:14px; color:#8892a4; margin-bottom:6px;">{% trans "الخدمة" %}: <span style="color:#00ffcc;">{{ pending_order.get_service_type_display }}</span></div>
     <div style="font-size:14px; color:#8892a4; margin-bottom:6px;">{% trans "السيارة" %}: <span style="color:#f0f4f8;">{{ pending_order.car_model }}</span></div>
@@ -23,10 +27,10 @@
     <div style="display:flex; gap:10px; margin-top:10px;">
         <form method="POST" action="{% url 'accept_order' pending_order.pk %}" style="flex:1;">
             {% csrf_token %}
-            <button type="submit" class="neon-btn">✅ {% trans "قبول" %}</button>
+            <button type="submit" class="neon-btn"><i class="fa-solid fa-check" style="margin-inline-end:6px;"></i>{% trans "قبول" %}</button>
         </form>
         <button class="danger-btn" id="show-reject-btn" style="flex:1;" onclick="document.getElementById('reject-form').style.display='block'; this.style.display='none';">
-            ❌ {% trans "رفض" %}
+            <i class="fa-solid fa-xmark" style="margin-inline-end:6px;"></i>{% trans "رفض" %}
         </button>
     </div>
     <div id="reject-form" style="display:none; margin-top:12px;">
@@ -42,7 +46,9 @@
 
 {% if active_order %}
 <div class="card-dark" style="border-color:#00ffcc;">
-    <div style="color:#00ffcc; font-weight:800; font-size:17px; margin-bottom:12px;">{% trans "الطلب الحالي" %} 🚗</div>
+    <div style="color:#00ffcc; font-weight:800; font-size:17px; margin-bottom:12px;">
+        <i class="fa-solid fa-car-side" style="color:var(--icon-blue); margin-inline-end:8px;"></i>{% trans "الطلب الحالي" %}
+    </div>
     <div style="font-size:14px; color:#8892a4; margin-bottom:6px;">{% trans "العميل" %}: <span style="color:#f0f4f8;">{{ active_order.customer_name }}</span></div>
     <div style="font-size:14px; color:#8892a4; margin-bottom:6px;">{% trans "الخدمة" %}: <span style="color:#00ffcc;">{{ active_order.get_service_type_display }}</span></div>
     <div style="font-size:14px; color:#8892a4; margin-bottom:10px;">{% trans "الحالة" %}:
@@ -54,25 +60,25 @@
     <form method="POST" action="{% url 'update_order_status' active_order.pk %}">
         {% csrf_token %}
         <input type="hidden" name="status" value="arrived">
-        <button type="submit" class="neon-btn">{% trans "وصلت للعميل" %} 📍</button>
+        <button type="submit" class="neon-btn"><i class="fa-solid fa-location-dot" style="margin-inline-end:6px;"></i>{% trans "وصلت للعميل" %}</button>
     </form>
     {% elif active_order.status == 'arrived' %}
     <form method="POST" action="{% url 'update_order_status' active_order.pk %}">
         {% csrf_token %}
         <input type="hidden" name="status" value="picking_up">
-        <button type="submit" class="neon-btn">{% trans "جاري استلام السيارة" %} 🔑</button>
+        <button type="submit" class="neon-btn"><i class="fa-solid fa-key" style="margin-inline-end:6px;"></i>{% trans "جاري استلام السيارة" %}</button>
     </form>
     {% elif active_order.status == 'picking_up' %}
     <form method="POST" action="{% url 'update_order_status' active_order.pk %}">
         {% csrf_token %}
         <input type="hidden" name="status" value="in_progress">
-        <button type="submit" class="neon-btn">{% trans "بدء تنفيذ الخدمة" %} ⚙️</button>
+        <button type="submit" class="neon-btn"><i class="fa-solid fa-gear" style="margin-inline-end:6px;"></i>{% trans "بدء تنفيذ الخدمة" %}</button>
     </form>
     {% elif active_order.status == 'in_progress' %}
     <form method="POST" action="{% url 'update_order_status' active_order.pk %}">
         {% csrf_token %}
         <input type="hidden" name="status" value="finished">
-        <button type="submit" class="neon-btn">{% trans "اكتملت الخدمة" %} ✅</button>
+        <button type="submit" class="neon-btn"><i class="fa-solid fa-circle-check" style="margin-inline-end:6px;"></i>{% trans "اكتملت الخدمة" %}</button>
     </form>
     {% endif %}
 </div>
@@ -80,7 +86,11 @@
 
 {% if not pending_order and not active_order %}
 <div style="text-align:center; padding:50px 20px; color:#8892a4;">
-    <div style="font-size:50px; margin-bottom:16px;">🕐</div>
+    <div style="margin-bottom:16px;">
+        <div style="width:72px; height:72px; border-radius:50%; background:var(--icon-bg); border:1px solid var(--icon-border); display:inline-flex; align-items:center; justify-content:center;">
+            <i class="fa-solid fa-clock" style="font-size:30px; color:var(--icon-blue);"></i>
+        </div>
+    </div>
     <div style="font-size:16px;">{% trans "في انتظار طلبات جديدة..." %}</div>
     <div style="font-size:13px; margin-top:8px; color:#555;">{% trans "ستصلك الطلبات تلقائياً عبر الشبكة" %}</div>
 </div>
@@ -88,12 +98,14 @@
 
 {% if cash_balance and cash_balance.amount_owed > 0 %}
 <div class="card-dark" style="border-color:#e74c3c;">
-    <div style="color:#e74c3c; font-weight:800; font-size:17px; margin-bottom:10px;">💵 {% trans "رصيد نقدي مستحق" %}</div>
+    <div style="color:#e74c3c; font-weight:800; font-size:17px; margin-bottom:10px;">
+        <i class="fa-solid fa-money-bill-wave" style="margin-inline-end:6px;"></i>{% trans "رصيد نقدي مستحق" %}
+    </div>
     <div style="font-size:26px; font-weight:900; color:#fff; margin-bottom:10px;">
         {{ cash_balance.amount_owed }} <span style="font-size:15px; color:#8892a4;">د.أ</span>
     </div>
     <div style="background:rgba(231,76,60,.1); border:1px solid rgba(231,76,60,.4); border-radius:12px; padding:14px; margin-top:8px;">
-        <div style="color:#e74c3c; font-weight:700; margin-bottom:6px;">⚠️ {% trans "تعليمات الإيداع النقدي" %}</div>
+        <div style="color:#e74c3c; font-weight:700; margin-bottom:6px;"><i class="fa-solid fa-triangle-exclamation" style="margin-inline-end:5px;"></i>{% trans "تعليمات الإيداع النقدي" %}</div>
         <div style="color:#ccc; font-size:14px; line-height:1.7;">
             {% trans "يرجى إيداع المبلغ المستحق في الحساب البنكي:" %}<br>
             {% if cash_balance.bank_account %}
@@ -106,13 +118,17 @@
 </div>
 {% elif cash_balance %}
 <div class="card-dark" style="border-color:#27ae60;">
-    <div style="color:#27ae60; font-weight:700; font-size:15px;">✅ {% trans "لا يوجد رصيد نقدي مستحق عليك حالياً." %}</div>
+    <div style="color:#27ae60; font-weight:700; font-size:15px;">
+        <i class="fa-solid fa-circle-check" style="margin-inline-end:6px;"></i>{% trans "لا يوجد رصيد نقدي مستحق عليك حالياً." %}
+    </div>
 </div>
 {% endif %}
 
 {% if recent_reports %}
 <div class="card-dark" style="margin-top:8px;">
-    <div style="color:#00ffcc; font-weight:800; font-size:16px; margin-bottom:14px;">📊 {% trans "تقاريري اليومية" %}</div>
+    <div style="color:#00ffcc; font-weight:800; font-size:16px; margin-bottom:14px;">
+        <i class="fa-solid fa-chart-bar" style="color:var(--icon-blue); margin-inline-end:8px;"></i>{% trans "تقاريري اليومية" %}
+    </div>
     <div style="overflow-x:auto;">
         <table style="width:100%; border-collapse:collapse; font-size:13px;">
             <thead>
@@ -149,7 +165,7 @@
     var reqMap = L.map('req-map').setView([{{ pending_order.customer_lat }}, {{ pending_order.customer_lon }}], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(reqMap);
     L.marker([{{ pending_order.customer_lat }}, {{ pending_order.customer_lon }}], {
-        icon: L.divIcon({className:'', html:'<div style="font-size:26px;">📍</div>'})
+        icon: L.divIcon({className:'', html:'<div style="width:32px;height:32px;background:#5b9bd5;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 2px 8px rgba(91,155,213,0.6);"></div>', iconAnchor:[16,32]})
     }).addTo(reqMap).bindPopup('{% trans "موقع العميل" %}').openPopup();
     {% endif %}
 
@@ -157,7 +173,7 @@
     var activeMap = L.map('active-map').setView([{{ active_order.customer_lat }}, {{ active_order.customer_lon }}], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(activeMap);
     L.marker([{{ active_order.customer_lat }}, {{ active_order.customer_lon }}], {
-        icon: L.divIcon({className:'', html:'<div style="font-size:26px;">📍</div>'})
+        icon: L.divIcon({className:'', html:'<div style="width:32px;height:32px;background:#5b9bd5;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 2px 8px rgba(91,155,213,0.6);"></div>', iconAnchor:[16,32]})
     }).addTo(activeMap).bindPopup('{% trans "موقع العميل" %}');
     {% endif %}
 

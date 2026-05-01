@@ -4,7 +4,9 @@
 
 {% block content %}
 <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:70vh; text-align:center; gap:20px; padding:30px;">
-    <div style="font-size:64px;">❌</div>
+    <div style="width:80px;height:80px;border-radius:50%;background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.35);display:inline-flex;align-items:center;justify-content:center;">
+        <i class="fa-solid fa-xmark" style="font-size:36px; color:#e74c3c;"></i>
+    </div>
     <div style="color:#e74c3c; font-size:24px; font-weight:800;">{% trans "تم رفض طلبك" %}</div>
     <p style="color:#8892a4; font-size:15px; max-width:300px; line-height:1.7;">
         {% trans "للأسف تم رفض طلب تسجيلك. يرجى التواصل مع الدعم للمزيد من المعلومات." %}
