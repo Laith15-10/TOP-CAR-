@@ -1,0 +1,29 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<div style="max-width:500px; margin:30px auto;">
+    <h2 style="margin-bottom:20px;">⚙️ إنشاء تقارير يومية للسائقين</h2>
+    <p style="color:#666; margin-bottom:20px;">
+        اختر التاريخ الذي تريد إنشاء التقارير له. إذا تركت الحقل فارغاً سيتم إنشاء تقرير <strong>أمس</strong> تلقائياً.
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <div style="margin-bottom:16px;">
+            <label for="report_date" style="display:block; margin-bottom:6px; font-weight:bold;">التاريخ (اختياري):</label>
+            <input type="date" name="report_date" id="report_date"
+                   style="padding:10px; border:1px solid #ccc; border-radius:6px; width:100%; font-size:15px;">
+        </div>
+        <div style="display:flex; gap:12px;">
+            <button type="submit"
+                    style="background:#2ecc71; color:#fff; border:none; padding:12px 28px; border-radius:6px; font-size:15px; font-weight:bold; cursor:pointer;">
+                ✅ إنشاء التقرير
+            </button>
+            <a href="../"
+               style="background:#bdc3c7; color:#333; padding:12px 28px; border-radius:6px; font-size:15px; font-weight:bold; text-decoration:none;">
+                إلغاء
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

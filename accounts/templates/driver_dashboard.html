@@ -85,6 +85,61 @@
     <div style="font-size:13px; margin-top:8px; color:#555;">{% trans "ستصلك الطلبات تلقائياً عبر الشبكة" %}</div>
 </div>
 {% endif %}
+
+{% if cash_balance and cash_balance.amount_owed > 0 %}
+<div class="card-dark" style="border-color:#e74c3c;">
+    <div style="color:#e74c3c; font-weight:800; font-size:17px; margin-bottom:10px;">💵 {% trans "رصيد نقدي مستحق" %}</div>
+    <div style="font-size:26px; font-weight:900; color:#fff; margin-bottom:10px;">
+        {{ cash_balance.amount_owed }} <span style="font-size:15px; color:#8892a4;">د.أ</span>
+    </div>
+    <div style="background:rgba(231,76,60,.1); border:1px solid rgba(231,76,60,.4); border-radius:12px; padding:14px; margin-top:8px;">
+        <div style="color:#e74c3c; font-weight:700; margin-bottom:6px;">⚠️ {% trans "تعليمات الإيداع النقدي" %}</div>
+        <div style="color:#ccc; font-size:14px; line-height:1.7;">
+            {% trans "يرجى إيداع المبلغ المستحق في الحساب البنكي:" %}<br>
+            {% if cash_balance.bank_account %}
+            <span style="color:#00ffcc; font-weight:700; font-size:16px; letter-spacing:1px; direction:ltr; display:inline-block; margin-top:4px;">{{ cash_balance.bank_account }}</span>
+            {% else %}
+            <span style="color:#f39c12;">{% trans "سيتم إبلاغك برقم الحساب البنكي من قِبل الإدارة." %}</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% elif cash_balance %}
+<div class="card-dark" style="border-color:#27ae60;">
+    <div style="color:#27ae60; font-weight:700; font-size:15px;">✅ {% trans "لا يوجد رصيد نقدي مستحق عليك حالياً." %}</div>
+</div>
+{% endif %}
+
+{% if recent_reports %}
+<div class="card-dark" style="margin-top:8px;">
+    <div style="color:#00ffcc; font-weight:800; font-size:16px; margin-bottom:14px;">📊 {% trans "تقاريري اليومية" %}</div>
+    <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <thead>
+                <tr style="color:#8892a4; border-bottom:1px solid #333;">
+                    <th style="padding:8px 6px; text-align:right;">{% trans "التاريخ" %}</th>
+                    <th style="padding:8px 6px; text-align:center;">{% trans "طلبات" %}</th>
+                    <th style="padding:8px 6px; text-align:center; color:#e74c3c;">{% trans "نقدي" %}</th>
+                    <th style="padding:8px 6px; text-align:center; color:#3498db;">QLIQ</th>
+                    <th style="padding:8px 6px; text-align:center; color:#27ae60;">{% trans "الإجمالي" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in recent_reports %}
+                <tr style="border-bottom:1px solid #1e293b;">
+                    <td style="padding:8px 6px; color:#f0f4f8;">{{ report.date|date:"Y/m/d" }}</td>
+                    <td style="padding:8px 6px; text-align:center; color:#f0f4f8;">{{ report.orders_count }}</td>
+                    <td style="padding:8px 6px; text-align:center; color:#e74c3c; font-weight:bold;">{{ report.cash_total }} د.أ</td>
+                    <td style="padding:8px 6px; text-align:center; color:#3498db; font-weight:bold;">{{ report.qliq_total }} د.أ</td>
+                    <td style="padding:8px 6px; text-align:center; color:#27ae60; font-weight:bold;">{{ report.grand_total }} د.أ</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
 {% endblock %}
 
 {% block extra_js %}

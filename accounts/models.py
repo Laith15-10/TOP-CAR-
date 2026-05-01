@@ -136,3 +136,59 @@ class Rating(models.Model):
 
     def __str__(self):
         return f"{self.stars} نجوم - {self.order}"
+
+
+class DailyReport(models.Model):
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE, related_name='daily_reports', verbose_name=_("السائق"))
+    date = models.DateField(verbose_name=_("التاريخ"))
+    orders_count = models.PositiveIntegerField(default=0, verbose_name=_("عدد الطلبات"))
+    cash_total = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name=_("إجمالي النقد (د.أ)"))
+    qliq_total = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name=_("إجمالي QLIQ (د.أ)"))
+    generated_at = models.DateTimeField(auto_now_add=True, verbose_name=_("وقت الإنشاء"))
+    notes = models.TextField(blank=True, default='', verbose_name=_("ملاحظات"))
+
+    class Meta:
+        unique_together = ('driver', 'date')
+        ordering = ['-date', 'driver']
+        verbose_name = _("تقرير يومي")
+        verbose_name_plural = _("التقارير اليومية")
+
+    def __str__(self):
+        return f"{self.driver} — {self.date}"
+
+    @property
+    def grand_total(self):
+        return self.cash_total + self.qliq_total
+
+
+class CashBalance(models.Model):
+    driver = models.OneToOneField(Driver, on_delete=models.CASCADE, related_name='cash_balance', verbose_name=_("السائق"))
+    amount_owed = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name=_("المبلغ المستحق (د.أ)"))
+    last_updated = models.DateTimeField(auto_now=True, verbose_name=_("آخر تحديث"))
+    bank_account = models.CharField(max_length=200, blank=True, default='', verbose_name=_("رقم الحساب البنكي للإيداع"))
+
+    class Meta:
+        verbose_name = _("رصيد نقدي")
+        verbose_name_plural = _("الأرصدة النقدية")
+
+    def __str__(self):
+        return f"{self.driver} — {self.amount_owed} د.أ"
+
+
+class CashSettlement(models.Model):
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE, related_name='settlements', verbose_name=_("السائق"))
+    amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("المبلغ المسوّى (د.أ)"))
+    settled_at = models.DateTimeField(auto_now_add=True, verbose_name=_("تاريخ التسوية"))
+    note = models.TextField(blank=True, default='', verbose_name=_("ملاحظة"))
+    settled_by = models.ForeignKey(
+        'auth.User', on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='settlements_done', verbose_name=_("أجراها")
+    )
+
+    class Meta:
+        ordering = ['-settled_at']
+        verbose_name = _("تسوية نقدية")
+        verbose_name_plural = _("التسويات النقدية")
+
+    def __str__(self):
+        return f"{self.driver} — {self.amount} د.أ — {self.settled_at:%Y-%m-%d}"

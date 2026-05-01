@@ -12,7 +12,7 @@ from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from django.utils.translation import gettext_lazy as _
 
-from .models import Driver, ServiceOrder, RejectionLog, Rating, CustomerProfile
+from .models import Driver, ServiceOrder, RejectionLog, Rating, CustomerProfile, CashBalance, DailyReport
 from .forms import CustomerSignupForm, DriverSignupForm, BookingForm, RejectionForm, RatingForm
 
 
@@ -197,11 +197,21 @@ def driver_dashboard(request):
     ).first()
 
     rejection_form = RejectionForm()
+
+    try:
+        cash_balance = driver.cash_balance
+    except CashBalance.DoesNotExist:
+        cash_balance = None
+
+    recent_reports = DailyReport.objects.filter(driver=driver).order_by('-date')[:7]
+
     return render(request, 'driver_dashboard.html', {
         'driver': driver,
         'active_order': active_order,
         'pending_order': pending_order,
         'rejection_form': rejection_form,
+        'cash_balance': cash_balance,
+        'recent_reports': recent_reports,
     })
 
 
@@ -302,6 +312,16 @@ def update_order_status(request, order_id):
     if new_status == valid_transitions.get(order.status):
         order.status = new_status
         order.save(update_fields=['status'])
+
+        if new_status == ServiceOrder.STATUS_FINISHED and order.payment_method == ServiceOrder.PAYMENT_CASH:
+            from decimal import Decimal
+            balance, _ = CashBalance.objects.get_or_create(
+                driver=driver,
+                defaults={'amount_owed': Decimal('0')}
+            )
+            balance.amount_owed += Decimal(str(order.get_price()))
+            balance.save(update_fields=['amount_owed', 'last_updated'])
+
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
             f'order_{order.pk}',

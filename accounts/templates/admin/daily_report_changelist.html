@@ -1,0 +1,11 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+
+{% block object-tools-items %}
+<li>
+    <a href="generate/" class="addlink" style="background:#2ecc71; color:#fff; padding:8px 16px; border-radius:6px; text-decoration:none; font-weight:bold;">
+        ⚙️ إنشاء تقرير يومي
+    </a>
+</li>
+{{ block.super }}
+{% endblock %}

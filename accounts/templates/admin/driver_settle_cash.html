@@ -1,0 +1,53 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<div style="max-width:600px; margin:30px auto;">
+    <h2 style="margin-bottom:20px;">💰 تسجيل تسوية نقدية</h2>
+
+    <table style="width:100%; border-collapse:collapse; margin-bottom:24px; background:#f9f9f9; border-radius:8px; overflow:hidden;">
+        <thead>
+            <tr style="background:#2c3e50; color:#fff;">
+                <th style="padding:12px 16px; text-align:right;">السائق</th>
+                <th style="padding:12px 16px; text-align:right;">المبلغ المستحق</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for driver, balance in driver_balances %}
+            <tr style="border-bottom:1px solid #e0e0e0;">
+                <td style="padding:10px 16px;">{{ driver.user.get_full_name|default:driver.user.username }}</td>
+                <td style="padding:10px 16px; font-weight:bold; color:#e74c3c;">
+                    {% if balance %}{{ balance.amount_owed }} د.أ{% else %}0 د.أ{% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="2" style="padding:12px; text-align:center;">لا يوجد سائقون محددون.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="ids" value="{{ ids }}">
+        <div style="margin-bottom:16px;">
+            <label style="display:block; margin-bottom:6px; font-weight:bold;">ملاحظة (اختيارية):</label>
+            <textarea name="note" rows="3"
+                      style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:14px;"
+                      placeholder="مثال: تم استلام النقد بتاريخ ..."></textarea>
+        </div>
+        <div style="background:#fff3cd; border:1px solid #ffc107; border-radius:6px; padding:14px; margin-bottom:20px; color:#856404;">
+            ⚠️ سيتم تصفير رصيد النقد لجميع السائقين المحددين الذين لديهم مبلغ مستحق، وتسجيل التسوية في السجل.
+        </div>
+        <div style="display:flex; gap:12px;">
+            <button type="submit"
+                    style="background:#27ae60; color:#fff; border:none; padding:12px 28px; border-radius:6px; font-size:15px; font-weight:bold; cursor:pointer;">
+                ✅ تأكيد التسوية
+            </button>
+            <a href="../../"
+               style="background:#bdc3c7; color:#333; padding:12px 28px; border-radius:6px; font-size:15px; font-weight:bold; text-decoration:none;">
+                إلغاء
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
