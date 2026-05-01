@@ -7,11 +7,17 @@ SECRET_KEY = 'django-insecure-9yk6uz+58r96=uz%8+xs4)0(3gyy_=$5&p1lt!!jcg0dzx=jpn
 
 DEBUG = True
 
+# تعديل للسماح بجميع روابط Replit بشكل آمن
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://*.replit.dev', 'https://*.repl.co', 'https://*.replit.app']
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.replit.dev', 
+    'https://*.repl.co', 
+    'https://*.replit.app'
+]
 
 INSTALLED_APPS = [
+    # وضع دافني في البداية ضروري جداً للـ WebSockets
     'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -57,6 +63,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'car_wash_pro.wsgi.application'
 ASGI_APPLICATION = 'car_wash_pro.asgi.application'
 
+# إعداد الطبقات للرسائل الفورية
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels.layers.InMemoryChannelLayer',
@@ -107,3 +114,8 @@ LOGOUT_REDIRECT_URL = 'login'
 SESSION_COOKIE_AGE = 31536000
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_SAVE_EVERY_REQUEST = True
+
+# --- أضف هذه السطور في النهاية لحل مشاكل Replit ---
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+USE_X_FORWARDED_PORT = True
